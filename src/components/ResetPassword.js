@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   alert: {
     width: '100%',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(3),
   },
   form: {
     width: '100%',
@@ -54,13 +54,12 @@ export const ResetPassword = () => {
 
       let email = emailRef.current.value;
 
-      try {
-        setError('');
-        await resetPassword(email);
-        setMessage('Check your inbox for further instructions.');
-      } catch {
-        setError('Failed to reset password.');
-      }
+      await resetPassword(email)
+        .then(() => {
+          setError('');
+          setMessage('Check your inbox for further instructions.');
+        })
+        .catch(error => setError(error.message));
   }
 
   return (

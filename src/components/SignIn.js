@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   alert: {
     width: '100%',
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(3),
   },
   form: {
     width: '100%',
@@ -55,13 +55,12 @@ export const SignIn = () => {
       let email = emailRef.current.value;
       let password = passwordRef.current.value;
 
-      try {
-        setError('');
-        await signin(email, password);
-        history.push('/');
-      } catch {
-        setError('Failed to log in.');
-      }
+      await signin(email, password)
+        .then(() => {
+          setError('');
+          history.push('/');
+        })
+        .catch(error => setError(error.message));
   }
 
   return (

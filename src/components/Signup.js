@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     alert: {
         width: '100%',
-        marginTop: theme.spacing(2)
+        marginTop: theme.spacing(3),
     },
     form: {
         width: '100%',
@@ -60,14 +60,13 @@ const Signup = () => {
 
         if (password !== passwordConfirm) return setError('Passwords do not match.');
 
-        try {
-            setError('');
-            setLoading(true);
-            await signup(email, password);
-            history.push('/');
-        } catch {
-            setError('Failed to create an account.');
-        }
+        await signup(email, password)
+            .then(() => {
+                setError('');
+                setLoading(true);
+                history.push('/');
+            })
+            .catch(error => setError(error.message));
 
         setLoading(false);
     };
