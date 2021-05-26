@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
 
     const signup = (email, password) => auth.createUserWithEmailAndPassword(email, password);
     const signin = (email, password) => auth.signInWithEmailAndPassword(email, password);
+    const signout = () => auth.signOut();
     const resetPassword = email => auth.sendPasswordResetEmail(email);
 
     useEffect(() => {
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         signup,
         signin,
+        signout,
         resetPassword
     };
 
