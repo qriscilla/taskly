@@ -24,18 +24,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [error, setError] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
   const { signout } = useAuth();
   const history = useHistory();
 
   const handleSignOut = async () => {
     await signout()
       .then(() => {
-        setError('');
         history.push('/sign-in');
       })
-      .catch(error => setError(error.message));
+      .catch(error => console.log(error.message));
   }
 
   const handleClick = (event) => {

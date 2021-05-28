@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -41,17 +41,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Signup = () => {
+const SignUp = () => {
     const classes = useStyles();
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
     const { signup } = useAuth();
-    const history = useHistory();
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
 
         let email = emailRef.current.value;
@@ -60,15 +58,9 @@ const Signup = () => {
 
         if (password !== passwordConfirm) return setError('Passwords do not match.');
 
-        await signup(email, password)
-            .then(() => {
-                setError('');
-                setLoading(true);
-                history.push('/');
-            })
-            .catch(error => setError(error.message));
+        setError('');
 
-        setLoading(false);
+        signup(email, password).catch(err => setError(err.message));
     };
 
     return (
@@ -117,7 +109,6 @@ const Signup = () => {
                         </Grid>
                     </Grid>
                     <Button
-                        disabled={loading}
                         type="submit"
                         fullWidth
                         variant="contained"
@@ -138,4 +129,4 @@ const Signup = () => {
     );
 }
 
-export default Signup;
+export default SignUp;

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -46,21 +46,17 @@ export const SignIn = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState('');
-  const history = useHistory();
   const { signin } = useAuth();
 
-  const handleSubmit = async e => {
-      e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault();
 
-      let email = emailRef.current.value;
-      let password = passwordRef.current.value;
+    let email = emailRef.current.value;
+    let password = passwordRef.current.value;
 
-      await signin(email, password)
-        .then(() => {
-          setError('');
-          history.push('/');
-        })
-        .catch(error => setError(error.message));
+    setError('');
+
+    signin(email, password).catch(err => setError(err.message));
   }
 
   return (

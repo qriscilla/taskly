@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -46,20 +46,21 @@ export const ResetPassword = () => {
   const emailRef = useRef();
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
-  const history = useHistory();
   const { resetPassword } = useAuth();
 
-  const handleSubmit = async e => {
-      e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault();
 
-      let email = emailRef.current.value;
+    let email = emailRef.current.value;
+    
+    setError('');
+    setMessage('');
 
-      await resetPassword(email)
-        .then(() => {
-          setError('');
-          setMessage('Check your inbox for further instructions.');
-        })
-        .catch(error => setError(error.message));
+    resetPassword(email)
+      .then(() => {
+        setMessage('Check your inbox for further instructions.');
+      })
+      .catch(err => setError(err.message));
   }
 
   return (
