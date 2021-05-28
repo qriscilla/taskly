@@ -10,11 +10,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useAuth } from '../contexts/AuthContext';
-import { useHistory } from 'react-router-dom';
+import Sidebar from './Sidebar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
   },
   title: {
     flexGrow: 1,
@@ -26,27 +29,16 @@ export default function Dashboard() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const { signout } = useAuth();
-  const history = useHistory();
 
-  const handleSignOut = async () => {
-    await signout()
-      .then(() => {
-        history.push('/sign-in');
-      })
-      .catch(error => console.log(error.message));
-  }
+  const handleSignOut = () => signout().catch(error => console.log(error.message));
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget)
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <DoneOutline />
@@ -69,6 +61,7 @@ export default function Dashboard() {
           </Menu>
         </Toolbar>
       </AppBar>
+      <Sidebar />
     </div>
   );
 }
