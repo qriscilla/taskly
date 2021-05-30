@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -24,8 +24,8 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -56,8 +56,11 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
   const { currentUser } = useAuth();
   const { selectProject } = useProjectContext();
+  const projectNameRef = useRef();
 
   useEffect(() => {
     db.collection('projects')
@@ -71,6 +74,24 @@ const Sidebar = () => {
   }, [currentUser.email]);
 
   const toggleNesting = () => setOpen(!open);
+
+  const addProject = e => {
+    e.preventDefault();
+
+    let projectName = projectNameRef.current.value;
+
+    setError('');
+    setMessage('');
+
+    db
+      .collection('projects')
+      .add({
+        name: projectName,
+        userEmail: currentUser.email
+      })
+      .then(res => setMessage(`${projectName} was successfully created.`))
+      .catch(err => setError(err.message));
+  }
 
   return (
     <Drawer
@@ -150,34 +171,39 @@ const Sidebar = () => {
               maxWidth='xs'
               onClose={() => setDialogOpen(false)} >
               <DialogTitle id="form-dialog-title">Add new project</DialogTitle>
-              <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="project-name"
-                  label="Project name"
-                  type="text"
-                  fullWidth
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button 
-                  variant='outlined'
-                  size='small'
-                  style={{fontWeight: '600'}}
-                  onClick={() => setDialogOpen(false)} 
-                  color="primary" >
-                  Cancel
-                </Button>
-                <Button 
-                  variant='contained'
-                  size='small'
-                  style={{fontWeight: '600'}}
-                  onClick={() => setDialogOpen(false)} 
-                  color="primary" >
-                  Add
-                </Button>
-              </DialogActions>
+              {error && <Alert severity='error'>{error}</Alert>}
+              {message && <Alert severity='success'>{message}</Alert>}
+              <form onSubmit={addProject}>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="project-name"
+                    label="Project name"
+                    type="text"
+                    fullWidth
+                    inputRef={projectNameRef}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button 
+                    variant='outlined'
+                    size='small'
+                    style={{fontWeight: '600'}}
+                    onClick={() => setDialogOpen(false)} 
+                    color="primary" >
+                    Cancel
+                  </Button>
+                  <Button 
+                    type='submit'
+                    variant='contained'
+                    size='small'
+                    style={{fontWeight: '600'}}
+                    color="primary" >
+                    Add
+                  </Button>
+                </DialogActions>                
+              </form>
             </Dialog>
           </ListItem>
         </List>
