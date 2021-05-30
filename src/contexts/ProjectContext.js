@@ -1,34 +1,22 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { db } from '../firebase';
-import { useAuth } from './AuthContext';
 
 const ProjectContext = createContext();
 
 export const useProjectContext = () => useContext(ProjectContext);
 
 export const ProjectProvider = ({ children }) => {
-    const { currentUser } = useAuth();
-    const [project, setProject] = useState({
-        name: 'Due today',
-        email: currentUser.email
-    });
+    const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
 
     const selectProject = projectId => {
-        let selectedProject = db.collection('projects').doc(projectId);
+        const selectedProject = db.collection('projects').doc(projectId);
 
-        db
+        selectedProject.onSnapshot(doc => setProject(doc.data()));
+
+        selectedProject
             .collection('tasks')
-            .where('projectId', '==', projectId)
-            .onSnapshot(snapshot => {
-                setTasks(snapshot.docs.map(doc => ({
-                    completed: doc.data().completed,
-                    dueDate: doc.data().dueDate,
-                    task: doc.data().task
-                })));
-            });
-
-        selectedProject.get().then(doc => setProject(doc.data()));
+            .onSnapshot(snapshot => setTasks(snapshot.docs.map(doc => doc.data())));
     };
 
     const value = {

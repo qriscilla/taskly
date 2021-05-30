@@ -20,16 +20,20 @@ import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProjectContext } from '../../contexts/ProjectContext';
-
-const drawerWidth = 240;
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    width: drawerWidth,
+    width: 240,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: 240,
   },
   drawerContainer: {
     overflow: 'auto',
@@ -51,6 +55,7 @@ const Sidebar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { currentUser } = useAuth();
   const { selectProject } = useProjectContext();
 
@@ -130,9 +135,50 @@ const Sidebar = () => {
 
         <List>
           <ListItem className={classes.addProject}>
-            <Button variant='contained' size='small' color='primary' style={{fontWeight: '600'}}>
+            <Button 
+              variant='contained' 
+              size='small' 
+              color='primary' 
+              style={{fontWeight: '600'}}
+              onClick={() => setDialogOpen(true)} >
               <AddIcon /> Add Project
             </Button>
+
+            <Dialog 
+              open={dialogOpen} 
+              fullWidth={true}
+              maxWidth='xs'
+              onClose={() => setDialogOpen(false)} >
+              <DialogTitle id="form-dialog-title">Add new project</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="project-name"
+                  label="Project name"
+                  type="text"
+                  fullWidth
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button 
+                  variant='outlined'
+                  size='small'
+                  style={{fontWeight: '600'}}
+                  onClick={() => setDialogOpen(false)} 
+                  color="primary" >
+                  Cancel
+                </Button>
+                <Button 
+                  variant='contained'
+                  size='small'
+                  style={{fontWeight: '600'}}
+                  onClick={() => setDialogOpen(false)} 
+                  color="primary" >
+                  Add
+                </Button>
+              </DialogActions>
+            </Dialog>
           </ListItem>
         </List>
 
