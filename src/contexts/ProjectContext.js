@@ -6,10 +6,12 @@ const ProjectContext = createContext();
 export const useProjectContext = () => useContext(ProjectContext);
 
 export const ProjectProvider = ({ children }) => {
+    const [projectId, setProjectId] = useState('');
     const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
 
     const selectProject = projectId => {
+        setProjectId(projectId);
         const selectedProject = db.collection('projects').doc(projectId);
 
         selectedProject.onSnapshot(doc => setProject(doc.data()));
@@ -20,6 +22,7 @@ export const ProjectProvider = ({ children }) => {
     };
 
     const value = {
+        projectId,
         project,
         selectProject,
         tasks
