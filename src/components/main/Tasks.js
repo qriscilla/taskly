@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Navbar from './layout/Navbar';
-import Sidebar from './layout/Sidebar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
+import { useProjectContext } from '../../contexts/ProjectContext';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -34,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
   button: {
       padding: '1px',
       margin: '0 5px 0 5px',
-    //   color: 'black'
   },
   addTaskButton: {
     fontWeight: '600', 
@@ -43,27 +36,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Project = () => {
+const Tasks = () => {
   const classes = useStyles();
-  const [projectName, setProjectName] = useState('');
-
-  useEffect(() => {
-    setProjectName(new URLSearchParams(window.location.search).get('id'));
-  });
+  const { project, tasks } = useProjectContext();
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-
-      <Navbar />
-
-      <Sidebar />
-
       <main className={classes.content}>
         <Toolbar />
 
         <Typography variant='h6' className={classes.projectHeader}>
-            {projectName}
+            {project.name}
             <span>
                 <IconButton className={classes.button} color='primary'>
                     <AddIcon />
@@ -75,31 +57,16 @@ const Project = () => {
         </Typography>
         
         <Typography className={classes.tasks}>
-            <span>
-                <FormControlLabel control={<Checkbox size='small' color='primary' />} />
-                Task
-            </span>
-            <Divider />
-            <span>
-                <FormControlLabel control={<Checkbox size='small' color='primary' />} />
-                Task
-            </span>
-            <Divider />
-            <span>
-                <FormControlLabel control={<Checkbox size='small' color='primary' />} />
-                Task
-            </span>
-            <Divider />
-            <span>
-                <FormControlLabel control={<Checkbox size='small' color='primary' />} />
-                Task
-            </span>
+            {tasks.map(task => 
+                <span key={task.task}>
+                    <FormControlLabel control={<Checkbox size='small' color='primary' />} />
+                    {task.task}
+                </span>
+            )}
             <Divider />
         </Typography>
-
       </main>
-    </div>
   );
 }
 
-export default Project;
+export default Tasks;

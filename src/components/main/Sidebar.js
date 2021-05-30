@@ -19,7 +19,7 @@ import Button from '@material-ui/core/Button';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { useProjectContext } from '../../contexts/ProjectContext';
 
 const drawerWidth = 240;
 
@@ -52,6 +52,7 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const { currentUser } = useAuth();
+  const { selectProject } = useProjectContext();
 
   useEffect(() => {
     db.collection('projects')
@@ -112,20 +113,17 @@ const Sidebar = () => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {projects.map(project =>
-                <Link 
-                  key={project.id} 
-                  style={{textDecoration: 'none', color: 'black'}}
-                  to={{
-                    pathname: `/projects`,
-                    search: `?id=${project.name}`
-                  }} >
-                  <ListItem button className={classes.nested}>
-                    <ListItemIcon>
-                      <TurnedInNotOutlinedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={project.name} />
-                  </ListItem>
-                </Link> )}
+                <ListItem 
+                  button 
+                  className={classes.nested} 
+                  key={project.id}
+                  onClick={() => selectProject(project.id)} >
+                  <ListItemIcon>
+                    <TurnedInNotOutlinedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={project.name} />
+                </ListItem> 
+              )}
             </List>
           </Collapse>
         </List>
