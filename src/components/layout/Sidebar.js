@@ -18,6 +18,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { db } from '../../firebase';
+import { useAuth } from '../../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -39,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: 0,
     paddingBottom: 15,
+  },
+  projectLink: {
+    textDecoration: 'none'
   }
 }));
 
@@ -46,16 +51,18 @@ const Sidebar = () => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    db.collection('projects').onSnapshot(snapshot => {
+    db.collection('projects')
+      .where('userEmail', '==', currentUser.email)
+      .onSnapshot(snapshot => {
         setProjects(snapshot.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name
+          id: doc.id,
+          name: doc.data().name
         })))
     })
-  }, []);
-
+  }, [currentUser.email]);
 
   const toggleNesting = () => setOpen(!open);
 
@@ -105,12 +112,20 @@ const Sidebar = () => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {projects.map(project =>
-                <ListItem button className={classes.nested} key={project.id}>
-                  <ListItemIcon>
-                    <TurnedInNotOutlinedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={project.name} />
-                </ListItem> )}
+                <Link 
+                  key={project.id} 
+                  style={{textDecoration: 'none', color: 'black'}}
+                  to={{
+                    pathname: `/projects`,
+                    search: `?id=${project.name}`
+                  }} >
+                  <ListItem button className={classes.nested}>
+                    <ListItemIcon>
+                      <TurnedInNotOutlinedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={project.name} />
+                  </ListItem>
+                </Link> )}
             </List>
           </Collapse>
         </List>

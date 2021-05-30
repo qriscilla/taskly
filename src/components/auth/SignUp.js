@@ -9,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import { useAuth } from '../../contexts/AuthContext';
 import Logo from './Logo';
+import { db } from '../../firebase';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -60,7 +61,11 @@ const SignUp = () => {
 
         setError('');
 
-        signup(email, password).catch(err => setError(err.message));
+        signup(email, password)
+            .then(() => {
+                db.collection('users').add({ email })
+            })
+            .catch(err => setError(err.message));
     };
 
     return (

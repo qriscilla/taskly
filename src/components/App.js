@@ -7,17 +7,19 @@ import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import ResetPassword from './auth/ResetPassword';
 import Dashboard from './Dashboard';
+import Project from './Project';
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Switch>
-          <PublicRoute path='/sign-up' component={SignUp} />
-          <PublicRoute path='/sign-in' component={SignIn} />
-          <PublicRoute path='/reset-password' component={ResetPassword} />
-          <PrivateRoute exact path='/' component={Dashboard} />
-        </Switch>
+          <Switch>
+            <PublicRoute path='/sign-up' component={SignUp} />
+            <PublicRoute path='/sign-in' component={SignIn} />
+            <PublicRoute path='/reset-password' component={ResetPassword} />
+            <PrivateRoute exact path='/' component={Dashboard} />
+            <PrivateRoute path='/projects' component={Project} />
+          </Switch>          
       </AuthProvider>      
     </Router>
   );
