@@ -77,6 +77,15 @@ const Tasks = () => {
       })
   };
 
+  const handleChange = taskId => event => {
+    db
+      .collection('tasks')
+      .doc(taskId)
+      .update({
+        completed: event.target.checked
+      })
+  };
+
   return (
       <main className={classes.content}>
         <Toolbar />
@@ -87,7 +96,14 @@ const Tasks = () => {
             {tasks.map(task => 
                 <span key={task.task} className={classes.task}>
                   <span>
-                    <FormControlLabel control={<Checkbox checked={task.completed} size='small' color='primary' />} />
+                    <FormControlLabel 
+                      control={
+                        <Checkbox 
+                          checked={task.completed} 
+                          size='small' 
+                          color='primary'
+                          onChange={handleChange(task.id)} />
+                      } />
                     {task.task}                    
                   </span>
                   <IconButton 
