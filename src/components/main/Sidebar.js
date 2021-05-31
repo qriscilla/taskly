@@ -12,11 +12,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import TurnedInNotOutlinedIcon from '@material-ui/icons/TurnedInNotOutlined';
-import TodayIcon from '@material-ui/icons/Today';
-import DateRangeIcon from '@material-ui/icons/DateRange';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import DataUsageIcon from '@material-ui/icons/DataUsage';
 import { db } from '../../firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import { useProjectContext } from '../../contexts/ProjectContext';
@@ -27,6 +24,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import { constants } from './Constants';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -64,8 +62,6 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const { currentUser } = useAuth();
   const { selectProject } = useProjectContext();
@@ -89,9 +85,6 @@ const Sidebar = () => {
 
     let projectName = projectNameRef.current.value;
 
-    setError('');
-    setMessage('');
-
     db
       .collection('projects')
       .add({
@@ -102,7 +95,7 @@ const Sidebar = () => {
         setDialogOpen(false);
         setSnackbarOpen(true);
       })
-      .catch(err => setError(err.message));
+      .catch(err => console.log(err.message));
   }
 
   return (
@@ -115,26 +108,17 @@ const Sidebar = () => {
       <Toolbar />
       <div className={classes.drawerContainer}>
         <List>
-          <ListItem button>
-            <ListItemIcon>
-              <TodayIcon />
-            </ListItemIcon>
-            <ListItemText primary='Due today' />
-          </ListItem>
-
-          <ListItem button>
-            <ListItemIcon>
-              <DateRangeIcon />
-            </ListItemIcon>
-            <ListItemText primary='Due within 7 days' />
-          </ListItem>
-
-          <ListItem button>
-            <ListItemIcon>
-              <DataUsageIcon />
-            </ListItemIcon>
-            <ListItemText primary='All incomplete tasks' />
-          </ListItem>
+          {constants.map(constant =>
+            <ListItem 
+              button 
+              key={constant.id}
+              onClick={() => selectProject(constant.id)} >
+              <ListItemIcon>
+                {constant.icon}
+              </ListItemIcon>
+              <ListItemText primary={constant.name} />
+            </ListItem>
+          )}
         </List>
 
         <Divider />
@@ -200,11 +184,7 @@ const Sidebar = () => {
                     variant='outlined'
                     size='small'
                     style={{fontWeight: '600'}}
-                    onClick={() => {
-                      setMessage('');
-                      setError('');
-                      setDialogOpen(false);
-                    }} 
+                    onClick={() => setDialogOpen(false)} 
                     color="primary" >
                     Cancel
                   </Button>

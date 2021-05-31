@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectHeader = () => {
     const classes = useStyles();
-    const { project, projectId } = useProjectContext();
+    const { project, projectId, selectProject } = useProjectContext();
     const [anchorEl, setAnchorEl] = useState(null);
     const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -38,18 +38,15 @@ const ProjectHeader = () => {
     const handleClose = () => setAnchorEl(null);
 
     const deleteProject = () => {
-        db
-            .collection('projects')
-            .doc(projectId)
-            .delete()
-            .then(() => console.log('successfully deleted project'));
+        db.collection('projects').doc(projectId).delete();
 
         setDialogOpen(false);
+        selectProject(0);
     }
 
     return (
         <Typography variant='h6' className={classes.projectHeader}>
-            {project.name}
+            {project && project.name}
             <span>
                 <IconButton className={classes.button} color='primary'>
                     <AddIcon />
