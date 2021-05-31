@@ -42,7 +42,7 @@ const Tasks = () => {
         <Typography className={classes.tasks}>
             {tasks.map(task => 
                 <span key={task.task}>
-                    <FormControlLabel control={<Checkbox size='small' color='primary' />} />
+                    <FormControlLabel control={<Checkbox checked={task.completed} size='small' color='primary' />} />
                     {task.task}
                 </span>
             )}

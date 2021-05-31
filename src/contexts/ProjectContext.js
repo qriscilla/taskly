@@ -12,12 +12,14 @@ export const ProjectProvider = ({ children }) => {
 
     const selectProject = projectId => {
         setProjectId(projectId);
+
         const selectedProject = db.collection('projects').doc(projectId);
 
         selectedProject.onSnapshot(doc => setProject(doc.data()));
 
-        selectedProject
+        db
             .collection('tasks')
+            .where('projectId', '==', projectId)
             .onSnapshot(snapshot => setTasks(snapshot.docs.map(doc => doc.data())));
     };
 

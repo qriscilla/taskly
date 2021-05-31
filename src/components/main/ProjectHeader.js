@@ -49,7 +49,7 @@ const ProjectHeader = () => {
 
     return (
         <Typography variant='h6' className={classes.projectHeader}>
-            {/* {project.name} */}
+            {project.name}
             <span>
                 <IconButton className={classes.button} color='primary'>
                     <AddIcon />

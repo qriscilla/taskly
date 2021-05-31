@@ -26,7 +26,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
-import DialogContentText from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -49,7 +49,14 @@ const useStyles = makeStyles((theme) => ({
   },
   projectLink: {
     textDecoration: 'none'
-  }
+  },
+  snackbar: {
+    position: "fixed",
+    bottom: 0,
+    paddingBottom: 15,
+    right: 0,
+    paddingRight: 15
+  },
 }));
 
 const Sidebar = () => {
@@ -59,6 +66,7 @@ const Sidebar = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const { currentUser } = useAuth();
   const { selectProject } = useProjectContext();
   const projectNameRef = useRef();
@@ -90,7 +98,10 @@ const Sidebar = () => {
         name: projectName,
         userEmail: currentUser.email
       })
-      .then(res => setMessage(`${projectName} was successfully created.`))
+      .then(() => {
+        setDialogOpen(false);
+        setSnackbarOpen(true);
+      })
       .catch(err => setError(err.message));
   }
 
@@ -172,8 +183,6 @@ const Sidebar = () => {
               maxWidth='xs'
               onClose={() => setDialogOpen(false)} >
               <DialogTitle id="form-dialog-title">Add new project</DialogTitle>
-              {error && <Alert severity='error'>{error}</Alert>}
-              {message && <Alert severity='success'>{message}</Alert>}
               <form onSubmit={addProject}>
                 <DialogContent>
                   <TextField
@@ -191,7 +200,11 @@ const Sidebar = () => {
                     variant='outlined'
                     size='small'
                     style={{fontWeight: '600'}}
-                    onClick={() => setDialogOpen(false)} 
+                    onClick={() => {
+                      setMessage('');
+                      setError('');
+                      setDialogOpen(false);
+                    }} 
                     color="primary" >
                     Cancel
                   </Button>
@@ -208,6 +221,24 @@ const Sidebar = () => {
             </Dialog>
           </ListItem>
         </List>
+
+        <Snackbar 
+          open={snackbarOpen} 
+          autoHideDuration={6000} 
+          onClose={() => setSnackbarOpen(false)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          className={classes.snackbar} >
+          <Alert 
+            onClose={() => setSnackbarOpen(false)} 
+            variant='outlined' 
+            severity="success"
+            style={{paddingTop: '1px', paddingBottom: '1px'}} >
+            Project was added
+          </Alert>
+        </Snackbar>
 
       </div>
     </Drawer>
