@@ -19,35 +19,34 @@ export const ProjectProvider = ({ children }) => {
 
             switch (projectId) {
                 case 0:
-                    let currDate = new Date().setHours(0, 0, 0, 0);
+                    // let currDate = new Date().setHours(0, 0, 0, 0);
 
-                    db
-                        .collection('tasks')
-                        .onSnapshot(snapshot => 
-                            setTasks(snapshot.docs.map(doc => 
-                                doc.data()).filter(task => 
-                                    task.dueDate.toDate().setHours(0, 0, 0, 0) === currDate)));
-
+                    // db
+                    //     .collection('tasks')
+                    //     .onSnapshot(snapshot => 
+                    //         setTasks(snapshot.docs.map(doc => 
+                    //             doc.data()).filter(task => 
+                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) === currDate)));
                     break;
                 case 1:
-                    let today = new Date().setHours(0, 0, 0, 0);
-                    let oneWeekFromToday = today + (7 * 24 * 60 * 60 * 1000)
+                    // let today = new Date().setHours(0, 0, 0, 0);
+                    // let oneWeekFromToday = today + (7 * 24 * 60 * 60 * 1000)
                     
-                    db
-                        .collection('tasks')
-                        .onSnapshot(snapshot =>
-                            setTasks(snapshot.docs.map(doc =>
-                                doc.data()).filter(task =>
-                                    task.dueDate.toDate().setHours(0, 0, 0, 0) >= today &&
-                                    task.dueDate.toDate().setHours(0, 0, 0, 0) <= oneWeekFromToday)));
+                    // db
+                    //     .collection('tasks')
+                    //     .onSnapshot(snapshot =>
+                    //         setTasks(snapshot.docs.map(doc =>
+                    //             doc.data()).filter(task =>
+                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) >= today &&
+                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) <= oneWeekFromToday)));
                     break;
                 default:
-                    db
-                        .collection('tasks')
-                        .onSnapshot(snapshot => 
-                            setTasks(snapshot.docs.map(doc => 
-                                doc.data()).filter(task => 
-                                    !task.completed)));
+                    // db
+                    //     .collection('tasks')
+                    //     .onSnapshot(snapshot => 
+                    //         setTasks(snapshot.docs.map(doc => 
+                    //             doc.data()).filter(task => 
+                    //                 !task.completed)));
                     break;
             }
         }
@@ -60,7 +59,10 @@ export const ProjectProvider = ({ children }) => {
             db
                 .collection('tasks')
                 .where('projectId', '==', projectId)
-                .onSnapshot(snapshot => setTasks(snapshot.docs.map(doc => doc.data())));              
+                .onSnapshot(snapshot => setTasks(snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }))));              
         }
     };
 

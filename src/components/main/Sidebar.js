@@ -216,7 +216,7 @@ const Sidebar = () => {
             variant='outlined' 
             severity="success"
             style={{paddingTop: '1px', paddingBottom: '1px'}} >
-            Project was added
+            Project was added!
           </Alert>
         </Snackbar>
 
