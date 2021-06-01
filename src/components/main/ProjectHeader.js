@@ -45,6 +45,7 @@ const ProjectHeader = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [projectDeletedOpen, setProjectDeletedOpen] = useState(false);
     const taskRef = useRef();
     const dueDateRef = useRef();
 
@@ -52,7 +53,11 @@ const ProjectHeader = () => {
     const handleClose = () => setAnchorEl(null);
 
     const deleteProject = () => {
-        db.collection('projects').doc(projectId).delete();
+        db
+            .collection('projects')
+            .doc(projectId)
+            .delete()
+            .then(() => setProjectDeletedOpen(true));
 
         setDialogOpen(false);
         selectProject(0);
@@ -94,7 +99,6 @@ const ProjectHeader = () => {
                     <MoreHorizIcon />
                 </IconButton>
                 <Menu
-                    id='simple-menu'
                     anchorEl={anchorEl}
                     keepMounted 
                     open={Boolean(anchorEl)}
@@ -189,6 +193,24 @@ const ProjectHeader = () => {
                     severity="success"
                     style={{paddingTop: '1px', paddingBottom: '1px'}} >
                     Task was added!
+                </Alert>
+            </Snackbar>
+
+            <Snackbar 
+                open={projectDeletedOpen} 
+                autoHideDuration={6000} 
+                onClose={() => setProjectDeletedOpen(false)}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
+                className={classes.snackbar} >
+                <Alert 
+                    onClose={() => setProjectDeletedOpen(false)} 
+                    variant='outlined' 
+                    severity="success"
+                    style={{paddingTop: '1px', paddingBottom: '1px'}} >
+                    Project was deleted!
                 </Alert>
             </Snackbar>
         </Typography>

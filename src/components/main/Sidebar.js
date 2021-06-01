@@ -91,9 +91,10 @@ const Sidebar = () => {
         name: projectName,
         userEmail: currentUser.email
       })
-      .then(() => {
+      .then(res => {
         setDialogOpen(false);
         setSnackbarOpen(true);
+        selectProject(res.id);
       })
       .catch(err => console.log(err.message));
   }

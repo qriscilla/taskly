@@ -44,7 +44,7 @@ const Navbar = () => {
             <Typography variant="h6" className={classes.title}>
                 planr.
             </Typography>
-            <Button color="inherit" onClick={handleClick}>
+            <Button color="inherit" onClick={handleClick} style={{marginRight: '-15px'}}>
                 <AccountCircle />
             </Button>
             <Menu

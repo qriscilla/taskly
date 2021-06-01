@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -11,15 +11,16 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Button from '@material-ui/core/Button';
 import { db } from '../../firebase';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import DeleteTaskDialog from './DeleteTaskDialog';
+import Dialog from '@material-ui/core/Dialog';
+import TextField from '@material-ui/core/TextField';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   content: {
@@ -65,6 +66,12 @@ const Tasks = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [deleteTaskDialogOpen, setDeleteTaskDialogOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [currTaskId, setCurrTaskId] = useState('');
+  const [currTask, setCurrTask] = useState({});
+  const [editTaskDialogOpen, setEditTaskDialogOpen] = useState(false);
+  const taskRef = useRef();
+  const dueDateRef = useRef();
+  const [snackbarOpen2, setSnackbarOpen2] = useState(false);
 
   const deleteTask = taskId => e => {
     db
@@ -83,7 +90,26 @@ const Tasks = () => {
       .doc(taskId)
       .update({
         completed: event.target.checked
+      });
+  };
+
+  const updateTask = e => {
+    e.preventDefault();
+
+    let task = taskRef.current.value;
+    let dueDate = dueDateRef.current.value;
+
+    db  
+      .collection('tasks')
+      .doc(currTaskId)
+      .update({
+        task,
+        dueDate
       })
+      .then(() => {
+        setEditTaskDialogOpen(false);
+        setSnackbarOpen2(true);
+      });
   };
 
   return (
@@ -108,54 +134,17 @@ const Tasks = () => {
                   </span>
                   <IconButton 
                     className={classes.elipses}
-                    onClick={e => setAnchorEl(e.currentTarget)} >
+                    onClick={e => {
+                      setCurrTaskId(task.id);
+                      setCurrTask(task);
+                      setAnchorEl(e.currentTarget);
+                    }} >
                     <MoreHorizIcon />
                   </IconButton>
-                  <Menu 
-                    anchorEl={anchorEl}
-                    keepMounted 
-                    open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)}
-                    getContentAnchorEl={null}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                    transformOrigin={{ vertical: "top", horizontal: "center" }} >
-                    <MenuItem>Edit</MenuItem>
-                    <MenuItem onClick={() => {
-                      setAnchorEl(false);
-                      setDeleteTaskDialogOpen(true);
-                    }} >Delete</MenuItem>
-
-                    <Dialog maxWidth='xs' fullWidth={true} open={deleteTaskDialogOpen}>
-                      <DialogTitle id="form-dialog-title">Delete task?</DialogTitle>
-                      <DialogContent>
-                      <DialogContentText style={{color: 'black'}}>
-                          Please confirm your action. This will permanently delete the task.
-                      </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                      <Button 
-                          size='small' 
-                          style={{fontWeight: '600'}} 
-                          variant='outlined' 
-                          color="secondary"
-                          onClick={() => setDeleteTaskDialogOpen(false)} >
-                          Cancel
-                      </Button>
-                      <Button 
-                          size='small' 
-                          style={{fontWeight: '600'}} 
-                          variant='contained' 
-                          color="secondary"
-                          onClick={deleteTask(task.id)} >
-                          Delete
-                      </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </Menu>
                 </span>
             )}
-            <Divider />
         </Typography>
+        <Divider />
         <Snackbar 
           open={snackbarOpen} 
           autoHideDuration={6000} 
@@ -173,6 +162,90 @@ const Tasks = () => {
             Task was deleted!
           </Alert>
         </Snackbar>
+        
+        <Snackbar 
+          open={snackbarOpen2} 
+          autoHideDuration={6000} 
+          onClose={() => setSnackbarOpen2(false)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right'
+          }}
+          className={classes.snackbar} >
+          <Alert 
+            onClose={() => setSnackbarOpen2(false)} 
+            variant='outlined' 
+            severity="success"
+            style={{paddingTop: '1px', paddingBottom: '1px'}} >
+            Task was updated!
+          </Alert>
+        </Snackbar>
+
+        <Menu 
+          anchorEl={anchorEl}
+          keepMounted 
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }} >
+          <MenuItem
+            onClick={() => {
+              setAnchorEl(false);
+              setEditTaskDialogOpen(true);
+            }} >
+            Edit
+          </MenuItem>
+            <Dialog maxWidth='xs' fullWidth={true} open={editTaskDialogOpen}>
+              <DialogTitle>Edit task</DialogTitle>
+              <form onSubmit={updateTask}>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin='dense'
+                    label='Task'
+                    type='text'
+                    defaultValue={currTask.task}
+                    fullWidth
+                    inputRef={taskRef} />
+                  <div style={{marginTop: '15px', marginBottom: '-5px', color: 'gray', fontSize: '15px'}}>Due Date</div>
+                  <TextField
+                      margin='dense'
+                      fullWidth
+                      type='date'
+                      defaultValue={currTask.dueDate}
+                      inputRef={dueDateRef} />
+                </DialogContent>
+                  <DialogActions>
+                    <Button 
+                      variant='outlined'
+                      size='small'
+                      style={{fontWeight: '600'}}
+                      onClick={() => setEditTaskDialogOpen(false)} 
+                      color="primary" >
+                      Cancel
+                    </Button>
+                    <Button 
+                      type='submit'
+                      variant='contained'
+                      size='small'
+                      style={{fontWeight: '600'}}
+                      color="primary" >
+                      Save
+                    </Button>
+                  </DialogActions>                
+              </form>
+            </Dialog>
+          <MenuItem onClick={() => {
+            setAnchorEl(false);
+            setDeleteTaskDialogOpen(true);
+          }} >Delete</MenuItem>
+            <DeleteTaskDialog 
+              deleteTaskDialogOpen={deleteTaskDialogOpen}
+              setDeleteTaskDialogOpen={setDeleteTaskDialogOpen}
+              deleteTask={deleteTask}
+              taskId={currTaskId} />
+        </Menu>
       </main>
   );
 }
