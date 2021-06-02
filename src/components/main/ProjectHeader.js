@@ -46,8 +46,11 @@ const ProjectHeader = () => {
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [projectDeletedOpen, setProjectDeletedOpen] = useState(false);
+    const [editProjectDialogOpen, setEditProjectDialogOpen] = useState(false);
+    const [projectUpdatedSnackbarOpen, setProjectUpdatedSnackbarOpen] = useState(false);
     const taskRef = useRef();
     const dueDateRef = useRef();
+    const projectNameRef = useRef();
 
     const handleClick = e => setAnchorEl(e.currentTarget);
     const handleClose = () => setAnchorEl(null);
@@ -58,6 +61,12 @@ const ProjectHeader = () => {
             .doc(projectId)
             .delete()
             .then(() => setProjectDeletedOpen(true));
+
+        db
+            .collection('tasks')
+            .where('projectId', '==', projectId)
+            .get()
+            .then(querySnapshot => querySnapshot.forEach(doc => doc.ref.delete()));
 
         setDialogOpen(false);
         selectProject(0);
@@ -80,6 +89,22 @@ const ProjectHeader = () => {
                 setSnackbarOpen(true);
             })
             .catch(err => console.log(err.message));
+    };
+
+    const updateProject = e => {
+        e.preventDefault();
+
+        let name = projectNameRef.current.value;
+
+        db
+            .collection('projects')
+            .doc(projectId)
+            .update({name})
+            .then(() => {
+                setEditProjectDialogOpen(false);
+                setProjectUpdatedSnackbarOpen(true);
+            })
+            .catch(err => console.log(err));
     };
 
     return (
@@ -106,7 +131,13 @@ const ProjectHeader = () => {
                     getContentAnchorEl={null}
                     anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                     transformOrigin={{ vertical: "top", horizontal: "center" }} >
-                    <MenuItem>Rename</MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            setAnchorEl(false);
+                            setEditProjectDialogOpen(true);
+                        }} >
+                        Rename
+                    </MenuItem>
                     <MenuItem onClick={() => {
                         setAnchorEl(false);
                         setDialogOpen(true);
@@ -178,6 +209,40 @@ const ProjectHeader = () => {
                 </DialogActions>
             </Dialog>
 
+            <Dialog maxWidth='xs' fullWidth={true} open={editProjectDialogOpen}>
+              <DialogTitle>Edit project</DialogTitle>
+              <form onSubmit={updateProject}>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin='dense'
+                    label='Project name'
+                    type='text'
+                    defaultValue={project.name}
+                    fullWidth
+                    inputRef={projectNameRef} />
+                </DialogContent>
+                <DialogActions>
+                    <Button 
+                        variant='outlined'
+                        size='small'
+                        style={{fontWeight: '600'}}
+                        onClick={() => setEditProjectDialogOpen(false)} 
+                        color="primary" >
+                        Cancel
+                    </Button>
+                    <Button 
+                        type='submit'
+                        variant='contained'
+                        size='small'
+                        style={{fontWeight: '600'}}
+                        color="primary" >
+                        Save
+                    </Button>
+                </DialogActions>
+              </form>
+            </Dialog>
+
             <Snackbar 
                 open={snackbarOpen} 
                 autoHideDuration={6000} 
@@ -211,6 +276,24 @@ const ProjectHeader = () => {
                     severity="success"
                     style={{paddingTop: '1px', paddingBottom: '1px'}} >
                     Project was deleted!
+                </Alert>
+            </Snackbar>
+
+            <Snackbar 
+                open={projectUpdatedSnackbarOpen} 
+                autoHideDuration={6000} 
+                onClose={() => setProjectUpdatedSnackbarOpen(false)}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right'
+                }}
+                className={classes.snackbar} >
+                <Alert 
+                    onClose={() => setProjectUpdatedSnackbarOpen(false)} 
+                    variant='outlined' 
+                    severity="success"
+                    style={{paddingTop: '1px', paddingBottom: '1px'}} >
+                    Project was updated!
                 </Alert>
             </Snackbar>
         </Typography>

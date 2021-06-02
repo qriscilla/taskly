@@ -19,34 +19,41 @@ export const ProjectProvider = ({ children }) => {
 
             switch (projectId) {
                 case 0:
-                    // let currDate = new Date().setHours(0, 0, 0, 0);
+                    let currDate = new Date().setHours(0, 0, 0, 0);
 
-                    // db
-                    //     .collection('tasks')
-                    //     .onSnapshot(snapshot => 
-                    //         setTasks(snapshot.docs.map(doc => 
-                    //             doc.data()).filter(task => 
-                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) === currDate)));
+                    db
+                        .collection('tasks')
+                        .onSnapshot(snapshot =>
+                            setTasks(snapshot.docs.map(doc =>
+                                doc.data()).filter(task => {
+                                    let stringDate = task.dueDate.split('-');
+                                    var stringDateParsed = new Date(stringDate[0], stringDate[1] - 1, stringDate[2]).setHours(0, 0, 0, 0); 
+
+                                    return stringDateParsed === currDate;
+                                })));
                     break;
                 case 1:
-                    // let today = new Date().setHours(0, 0, 0, 0);
-                    // let oneWeekFromToday = today + (7 * 24 * 60 * 60 * 1000)
-                    
-                    // db
-                    //     .collection('tasks')
-                    //     .onSnapshot(snapshot =>
-                    //         setTasks(snapshot.docs.map(doc =>
-                    //             doc.data()).filter(task =>
-                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) >= today &&
-                    //                 task.dueDate.toDate().setHours(0, 0, 0, 0) <= oneWeekFromToday)));
+                    let today = new Date().setHours(0, 0, 0, 0);
+                    let oneWeekFromToday = today + (7 * 24 * 60 * 60 * 1000);
+
+                    db
+                        .collection('tasks')
+                        .onSnapshot(snapshot =>
+                            setTasks(snapshot.docs.map(doc =>
+                                doc.data()).filter(task => {
+                                    let stringDate = task.dueDate.split('-');
+                                    var stringDateParsed = new Date(stringDate[0], stringDate[1] - 1, stringDate[2]).setHours(0, 0, 0, 0); 
+
+                                    return (stringDateParsed >= today) && (stringDateParsed <= oneWeekFromToday);
+                                })))
                     break;
                 default:
-                    // db
-                    //     .collection('tasks')
-                    //     .onSnapshot(snapshot => 
-                    //         setTasks(snapshot.docs.map(doc => 
-                    //             doc.data()).filter(task => 
-                    //                 !task.completed)));
+                    db
+                        .collection('tasks')
+                        .onSnapshot(snapshot => 
+                            setTasks(snapshot.docs.map(doc => 
+                                doc.data()).filter(task => 
+                                    !task.completed)));
                     break;
             }
         }
