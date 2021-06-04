@@ -18,7 +18,7 @@ const Logo = () => {
 
     return (
         <Typography variant='h5' className={classes.logo}>
-            <DoneOutline fontSize='large' /> planr.
+            <DoneOutline fontSize='large' /> taskly
         </Typography>
     )
 }

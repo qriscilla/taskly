@@ -1,9 +1,7 @@
 import React from 'react';
-import { AuthProvider } from '../contexts/AuthContext';
-import { ProjectProvider } from '../contexts/ProjectContext';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import PrivateRoute from './routes/PrivateRoute';
-import PublicRoute from './routes/PublicRoute';
+import { AuthProvider, ProjectProvider } from '../contexts';
+import { PrivateRoute, PublicRoute } from './routes';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import ResetPassword from './auth/ResetPassword';

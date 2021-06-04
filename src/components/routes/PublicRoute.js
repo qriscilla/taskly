@@ -1,8 +1,8 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts';
 
-const PublicRoute = ({ component: Component, ...rest }) => {
+export const PublicRoute = ({ component: Component, ...rest }) => {
     const { currentUser } = useAuth();
 
     return (
@@ -14,5 +14,3 @@ const PublicRoute = ({ component: Component, ...rest }) => {
             } />
     );
 }
-
-export default PublicRoute;

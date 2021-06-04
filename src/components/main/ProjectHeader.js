@@ -6,14 +6,14 @@ import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { useProjectContext } from '../../contexts/ProjectContext';
+import { useProjectContext } from '../../contexts';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { db } from '../../firebase';
+import { database } from '../../firebase';
 import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -56,13 +56,13 @@ const ProjectHeader = () => {
     const handleClose = () => setAnchorEl(null);
 
     const deleteProject = () => {
-        db
+        database
             .collection('projects')
             .doc(projectId)
             .delete()
             .then(() => setProjectDeletedOpen(true));
 
-        db
+        database
             .collection('tasks')
             .where('projectId', '==', projectId)
             .get()
@@ -76,7 +76,7 @@ const ProjectHeader = () => {
         let task = taskRef.current.value;
         let dueDate = dueDateRef.current.value;
 
-        db
+        database
             .collection('tasks')
             .add({
                 task: task,
@@ -96,7 +96,7 @@ const ProjectHeader = () => {
 
         let name = projectNameRef.current.value;
 
-        db
+        database
             .collection('projects')
             .doc(projectId)
             .update({name})
@@ -218,7 +218,7 @@ const ProjectHeader = () => {
                     margin='dense'
                     label='Project name'
                     type='text'
-                    defaultValue={project.name}
+                    defaultValue={project && project.name}
                     fullWidth
                     inputRef={projectNameRef} />
                 </DialogContent>

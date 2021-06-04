@@ -5,13 +5,13 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Divider from '@material-ui/core/Divider';
-import { useProjectContext } from '../../contexts/ProjectContext';
+import { useProjectContext } from '../../contexts';
 import ProjectHeader from './ProjectHeader';
 import IconButton from '@material-ui/core/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { db } from '../../firebase';
+import { database } from '../../firebase';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import DeleteTaskDialog from './DeleteTaskDialog';
@@ -74,7 +74,7 @@ const Tasks = () => {
   const [snackbarOpen2, setSnackbarOpen2] = useState(false);
 
   const deleteTask = taskId => e => {
-    db
+    database
       .collection('tasks')
       .doc(taskId)
       .delete()
@@ -85,7 +85,7 @@ const Tasks = () => {
   };
 
   const handleChange = taskId => event => {
-    db
+    database
       .collection('tasks')
       .doc(taskId)
       .update({
@@ -99,7 +99,7 @@ const Tasks = () => {
     let task = taskRef.current.value;
     let dueDate = dueDateRef.current.value;
 
-    db  
+    database  
       .collection('tasks')
       .doc(currTaskId)
       .update({

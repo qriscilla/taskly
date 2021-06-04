@@ -7,9 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts';
 import Logo from './Logo';
-import { db } from '../../firebase';
+import { database } from '../../firebase';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -63,7 +63,7 @@ const SignUp = () => {
 
         signup(email, password)
             .then(() => {
-                db.collection('users').add({ email })
+                database.collection('users').add({ email })
             })
             .catch(err => setError(err.message));
     };

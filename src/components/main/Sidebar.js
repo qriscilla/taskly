@@ -14,9 +14,8 @@ import Collapse from '@material-ui/core/Collapse';
 import TurnedInNotOutlinedIcon from '@material-ui/icons/TurnedInNotOutlined';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import { db } from '../../firebase';
-import { useAuth } from '../../contexts/AuthContext';
-import { useProjectContext } from '../../contexts/ProjectContext';
+import { database } from '../../firebase';
+import { useAuth, useProjectContext } from '../../contexts';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -24,7 +23,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-import { constants } from './Constants';
+import { constants } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -68,7 +67,7 @@ const Sidebar = () => {
   const projectNameRef = useRef();
 
   useEffect(() => {
-    db.collection('projects')
+    database.collection('projects')
       .where('userEmail', '==', currentUser.email)
       .onSnapshot(snapshot => {
         setProjects(snapshot.docs.map(doc => ({
@@ -85,7 +84,7 @@ const Sidebar = () => {
 
     let projectName = projectNameRef.current.value;
 
-    db
+    database
       .collection('projects')
       .add({
         name: projectName,
