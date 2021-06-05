@@ -1,14 +1,14 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Logo from './Logo';
-import { useAuth } from '../../contexts';
 import Alert from '@material-ui/lab/Alert';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -17,17 +17,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main,
-  },
   alert: {
     width: '100%',
     marginTop: theme.spacing(3),
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(2),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -42,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const SignIn = () => {
-  const classes = useStyles();
+  const styles = useStyles();
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState('');
@@ -57,56 +53,49 @@ export const SignIn = () => {
     setError('');
 
     signin(email, password).catch(err => setError(err.message));
-  }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={styles.paper}>
         <Logo />
-        {error && <Alert severity="error" className={classes.alert}>{error}</Alert>}
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        {error && <Alert severity="error" className={styles.alert}>{error}</Alert>}
+        <form className={styles.form} onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="email"
             label="Email"
-            name="email"
             autoComplete="email"
             autoFocus
-            inputRef={emailRef}
-          />
+            inputRef={emailRef} />
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            name="password"
             label="Password"
             type="password"
-            id="password"
             inputRef={passwordRef}
-            autoComplete="current-password"
-          />
+            autoComplete="current-password" />
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
-          >
+            className={styles.submit} >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to='/reset-password' className={classes.link}>
+              <Link to='/reset-password' className={styles.link}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link to='/sign-up' className={classes.link}>
+              <Link to='/sign-up' className={styles.link}>
                 Don't have an account? Sign up
               </Link>
             </Grid>

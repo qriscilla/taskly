@@ -1,7 +1,7 @@
 import React from 'react';
-import DoneOutline from '@material-ui/icons/DoneOutline';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import DoneOutline from '@material-ui/icons/DoneOutline';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -20,7 +20,7 @@ const Logo = () => {
         <Typography variant='h5' className={classes.logo}>
             <DoneOutline fontSize='large' /> taskly
         </Typography>
-    )
-}
+    );
+};
 
 export default Logo;

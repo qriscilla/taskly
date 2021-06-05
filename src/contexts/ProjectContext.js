@@ -21,42 +21,25 @@ export const ProjectProvider = ({ children }) => {
         if (projectId < 3) {
             setProject(constants[projectId]);
 
-            const currentDate = new Date().setHours(0, 0, 0, 0);
+            database
+                .collection('tasks')
+                .onSnapshot(snapshot =>
+                    setTasks(snapshot.docs.map(doc =>
+                        doc.data()).filter(task => {
+                            const currentDate = new Date().setHours(0, 0, 0, 0);
+                            const stringDate = task.dueDate.split('-');
+                            const stringDateParsed = new Date(stringDate[0], stringDate[1] - 1, stringDate[2]).setHours(0, 0, 0, 0);
 
-            const setTasksWithCondition = conditionFunc => {
-                database
-                    .collection('tasks')
-                    .onSnapshot(snapshot =>
-                        setTasks(snapshot.docs.map(doc =>
-                            doc.data()).filter(task => conditionFunc(task))));
-            };
-
-            switch (projectId) {
-                case 0:
-                    const tasksToday = task => {
-                        let stringDate = task.dueDate.split('-');
-                        let stringDateParsed = new Date(stringDate[0], stringDate[1] - 1, stringDate[2]).setHours(0, 0, 0, 0);
-
-                        return stringDateParsed === currentDate;
-                    };
-
-                    setTasksWithCondition(tasksToday);
-                    break;
-                case 1:
-                    const tasksWithin7Days = task => {
-                        let stringDate = task.dueDate.split('-');
-                        let stringDateParsed = new Date(stringDate[0], stringDate[1] - 1, stringDate[2]).setHours(0, 0, 0, 0);
-                        let oneWeekFromToday = currentDate + (7 * 24 * 60 * 60 * 1000);
-
-                        return (stringDateParsed >= currentDate) && (stringDateParsed <= oneWeekFromToday);
-                    }
-
-                    setTasksWithCondition(tasksWithin7Days);
-                    break;
-                default:
-                    setTasksWithCondition(task => !task.completed);
-                    break;
-            }
+                            switch (projectId) {
+                                case 0:
+                                    return stringDateParsed === currentDate;
+                                case 1:
+                                    const oneWeekFromToday = currentDate + (7 * 24 * 60 * 60 * 1000);
+                                    return (stringDateParsed >= currentDate) && (stringDateParsed <= oneWeekFromToday);
+                                default:
+                                    return !task.completed;
+                            }
+                        })));
         }
 
         else {
