@@ -5,14 +5,10 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Tasks from './Tasks';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
+  }
 }));
 
 const Main = () => {
@@ -21,14 +17,11 @@ const Main = () => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-
       <Navbar />
-
       <Sidebar />
-
       <Tasks />
     </div>
   );
-}
+};
 
 export default Main;

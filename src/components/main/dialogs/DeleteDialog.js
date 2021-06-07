@@ -6,17 +6,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 
-const DeleteTaskDialog = ({ 
-    deleteTaskDialogOpen, 
-    setDeleteTaskDialogOpen,
-    deleteTask,
-    taskId }) => {
+const DeleteDialog = ({ 
+    itemType,
+    dialogOpen, 
+    setDialogOpen,
+    deleteFunc 
+}) => {
     return (
-        <Dialog maxWidth='xs' fullWidth={true} open={deleteTaskDialogOpen}>
-            <DialogTitle>Delete task?</DialogTitle>
+        <Dialog maxWidth='xs' fullWidth={true} open={dialogOpen}>
+            <DialogTitle>Delete {itemType}?</DialogTitle>
             <DialogContent>
             <DialogContentText style={{color: 'black'}}>
-                Please confirm your action. This will permanently delete the task.
+                Please confirm your action. 
+                {itemType === "task"
+                    ? "This will permanently delete the task."
+                    : "This will permanently delete the project as well as its containing tasks."}
             </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -25,7 +29,7 @@ const DeleteTaskDialog = ({
                 style={{fontWeight: '600'}} 
                 variant='outlined' 
                 color="secondary"
-                onClick={() => setDeleteTaskDialogOpen(false)} >
+                onClick={() => setDialogOpen(false)} >
                 Cancel
             </Button>
             <Button 
@@ -33,7 +37,7 @@ const DeleteTaskDialog = ({
                 style={{fontWeight: '600'}} 
                 variant='contained' 
                 color="secondary"
-                onClick={deleteTask(taskId)} >
+                onClick={deleteFunc()} >
                 Delete
             </Button>
             </DialogActions>
@@ -41,4 +45,4 @@ const DeleteTaskDialog = ({
     )
 }
 
-export default DeleteTaskDialog;
+export default DeleteDialog;
