@@ -44,7 +44,7 @@ const SignUp = () => {
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const [error, setError] = useState('');
-    const { signup } = useAuth();
+    const { signUp } = useAuth();
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -57,7 +57,7 @@ const SignUp = () => {
 
         setError('');
 
-        signup(email, password)
+        signUp(email, password)
             .then(() => database.collection('users').add({email}))
             .catch(err => setError(err.message));
     };

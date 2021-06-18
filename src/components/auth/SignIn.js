@@ -42,7 +42,7 @@ export const SignIn = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState('');
-  const { signin } = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -52,7 +52,7 @@ export const SignIn = () => {
 
     setError('');
 
-    signin(email, password).catch(err => setError(err.message));
+    signIn(email, password).catch(err => setError(err.message));
   };
 
   return (

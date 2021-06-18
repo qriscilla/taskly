@@ -27,9 +27,9 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
     const styles = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { signout } = useAuth();
+    const { signOut } = useAuth();
 
-    const handleSignOut = () => signout().catch(error => console.log(error.message));
+    const handleSignOut = () => signOut().catch(error => console.log(error.message));
     const openSignOutMenu = e => setAnchorEl(e.currentTarget);
     const closeSignOutMenu = () => setAnchorEl(null);
 

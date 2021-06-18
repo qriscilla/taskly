@@ -1,16 +1,4 @@
-import {
-    ProjectProvider,
-    useProjectContext
-} from './ProjectContext';
+import { ProjectProvider, useProjectContext } from './ProjectContext';
+import { AuthProvider, useAuth } from './AuthContext';
 
-import {
-    AuthProvider,
-    useAuth
-} from './AuthContext';
-
-export {
-    ProjectProvider,
-    useProjectContext,
-    AuthProvider,
-    useAuth
-};
+export { ProjectProvider, useProjectContext, AuthProvider, useAuth };

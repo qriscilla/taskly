@@ -48,11 +48,11 @@ const Tasks = () => {
   const [editTaskDialogOpen, setEditTaskDialogOpen] = useState(false);
   const [editTaskSnackbarOpen, setEditTaskSnackbarOpen] = useState(false);
 
-  const toggleTaskComplete = taskId => event => {
+  const toggleTaskComplete = taskId => e => {    
     database
       .collection('tasks')
       .doc(taskId)
-      .update({ completed: event.target.checked });
+      .update({ completed: e.target.checked });
   };
 
   const openTaskMenu = task => e => {

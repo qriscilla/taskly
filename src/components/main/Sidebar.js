@@ -54,11 +54,11 @@ const Sidebar = () => {
     database.collection('projects')
       .where('userEmail', '==', currentUser.email)
       .onSnapshot(snapshot => {
-        setProjects(snapshot.docs.map(doc => ({
-          id: doc.id,
-          name: doc.data().name
-        })))
-    })
+          setProjects(snapshot.docs.map(doc => ({
+            id: doc.id,
+            name: doc.data().name
+          })))          
+    });
   }, [currentUser.email]);
 
   const toggleCollapse = () => setCollapseOpen(!collapseOpen);
