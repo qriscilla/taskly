@@ -1,42 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Logo from './Logo';
 import Alert from '@material-ui/lab/Alert';
-import { useAuth } from '../../contexts';
-import { database } from '../../firebase';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    },
-    alert: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-    },
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(2)
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2)
-    },
-    link: {
-        textDecoration: 'none',
-        color: theme.palette.primary.main,
-        '&:hover': {
-            textDecoration: 'underline'
-        },
-    }
-}));
+import { useAuth } from '../../contexts';
+import { database } from '../../firebase';
+import { useStyles } from './SharedStyles';
+import Logo from './Logo';
 
 const SignUp = () => {
     const styles = useStyles();
