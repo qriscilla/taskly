@@ -4,25 +4,24 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteDialog from './extras/DeleteDialog';
-import TaskDialog from './extras/TaskDialog';
-import ProjectDialog from './extras/ProjectDialog';
-import ConfirmSnackbar from './extras/ConfirmSnackbar';
-import { useProjectContext } from '../../contexts';
-import { database } from '../../firebase';
+import ProjectMenu from './ProjectMenu';
+import DeleteDialog from '../extras/DeleteDialog';
+import TaskDialog from '../extras/TaskDialog';
+import ProjectDialog from '../extras/ProjectDialog';
+import ConfirmSnackbar from '../extras/ConfirmSnackbar';
+import { useProjectContext } from '../../../contexts';
+import { database } from '../../../firebase';
 
 const useStyles = makeStyles(() => ({
     projectHeader: {
         display: 'flex',
         justifyContent: 'space-between',
-        fontWeight: '600',
-        marginBottom: '19px'
+        fontWeight: 600,
+        marginBottom: 19
     },
     button: {
-        padding: '1px',
-        margin: '0 5px 0 5px',
+        padding: 1,
+        margin: '0 5px',
     }
 }));
 
@@ -38,15 +37,12 @@ const ProjectHeader = () => {
     const [addTaskSnackbarOpen, setAddTaskSnackbarOpen] = useState(false);
 
     const openProjectMenu = e => setAnchorEl(e.currentTarget);
-    const closeProjectMenu = () => setAnchorEl(null);
 
     const updateProject = projectName => {
         database
             .collection('projects')
             .doc(projectId)
-            .update({
-                name: projectName
-            })
+            .update({ name: projectName })
             .then(() => {
                 setEditProjectDialogOpen(false);
                 setEditProjectSnackbarOpen(true);
@@ -91,46 +87,34 @@ const ProjectHeader = () => {
         <Typography variant='h6' className={styles.projectHeader}>
             {project && project.name}
             <span>
-                <IconButton 
-                    className={styles.button} 
-                    color='primary'
-                    onClick={() => setAddTaskDialogOpen(true)} >
-                    <AddIcon />
-                </IconButton>
-                <IconButton 
-                    className={styles.button} 
-                    color='primary'
-                    onClick={openProjectMenu} >
-                    <MoreHorizIcon />
-                </IconButton>
-                <Menu
-                    anchorEl={anchorEl}
-                    keepMounted 
-                    open={Boolean(anchorEl)}
-                    onClose={closeProjectMenu}
-                    getContentAnchorEl={null}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                    transformOrigin={{ vertical: "top", horizontal: "center" }} >
-                    <MenuItem onClick={() => {
-                        setAnchorEl(false);
-                        setEditProjectDialogOpen(true);
-                        }} >
-                        Rename
-                    </MenuItem>
-                    <MenuItem onClick={() => {
-                        setAnchorEl(false);
-                        setDeleteProjectDialogOpen(true);
-                        }} >
-                        Delete
-                    </MenuItem>
-                </Menu>
+                {typeof projectId === 'string' &&
+                    <>
+                        <IconButton 
+                            className={styles.button} 
+                            color='primary'
+                            onClick={() => setAddTaskDialogOpen(true)} >
+                            <AddIcon />
+                        </IconButton>  
+                        <IconButton 
+                            className={styles.button} 
+                            color='primary'
+                            onClick={openProjectMenu} >
+                            <MoreHorizIcon />   
+                        </IconButton>     
+                    </>
+                }
+                <ProjectMenu 
+                    anchorEl={anchorEl} 
+                    setAnchorEl={setAnchorEl} 
+                    setEditProjectDialogOpen={setEditProjectDialogOpen} 
+                    setDeleteProjectDialogOpen={setDeleteProjectDialogOpen} />
             </span>
             <ProjectDialog
                 dialogOpen={editProjectDialogOpen}
                 setDialogOpen={setEditProjectDialogOpen}
                 title="Edit project"
-                actionFunc={updateProject}
-                actionType="Save" />
+                action={updateProject}
+                actionLabel="Save" />
             <ConfirmSnackbar
                 snackbarOpen={editProjectSnackbarOpen}
                 setSnackbarOpen={setEditProjectSnackbarOpen}
@@ -148,8 +132,8 @@ const ProjectHeader = () => {
                 dialogOpen={addTaskDialogOpen}
                 setDialogOpen={setAddTaskDialogOpen}
                 title='Add new task'
-                actionType="Add"
-                actionFunc={addTask}
+                actionLabel="Add"
+                action={addTask}
                 currTask={null} />
             <ConfirmSnackbar
                 snackbarOpen={addTaskSnackbarOpen}

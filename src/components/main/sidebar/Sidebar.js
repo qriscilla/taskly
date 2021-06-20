@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
-import { database } from '../../firebase';
-import { useAuth, useProjectContext } from '../../contexts';
+import { database } from '../../../firebase';
+import { useAuth, useProjectContext } from '../../../contexts';
 import Constants from './Constants';
 import Projects from './Projects';
-import ProjectDialog from './extras/ProjectDialog';
-import ConfirmSnackbar from './extras/ConfirmSnackbar';
+import AddProjectButton from './AddProjectButton';
+import ProjectDialog from '../extras/ProjectDialog';
+import ConfirmSnackbar from '../extras/ConfirmSnackbar';
 
 const useStyles = makeStyles(() => ({
   drawer: {
@@ -24,32 +21,15 @@ const useStyles = makeStyles(() => ({
   },
   drawerContainer: {
     overflow: 'auto',
-  },
-  addProject: {
-    position: 'fixed',
-    bottom: 0,
-    paddingBottom: 15,
   }
 }));
 
 const Sidebar = () => {
   const styles = useStyles();
-  const [projects, setProjects] = useState([]);
   const [addProjectDialogOpen, setAddProjectDialogOpen] = useState(false);
   const [addProjectSnackbarOpen, setAddProjectSnackbarOpen] = useState(false);
   const { currentUser } = useAuth();
   const { selectProject } = useProjectContext();
-
-  useEffect(() => {
-    database.collection('projects')
-      .where('userEmail', '==', currentUser.email)
-      .onSnapshot(snapshot => {
-          setProjects(snapshot.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name
-          })))          
-    });
-  }, [currentUser.email]);
 
   const addProject = projectName => {
     database
@@ -75,19 +55,8 @@ const Sidebar = () => {
       <div className={styles.drawerContainer}>
         <Constants />
         <Divider />
-        <Projects projects={projects} />
-        <List>
-          <ListItem className={styles.addProject}>
-            <Button 
-              variant='contained' 
-              size='small' 
-              color='primary' 
-              style={{fontWeight: '600'}}
-              onClick={() => setAddProjectDialogOpen(true)} >
-              <AddIcon /> Add Project
-            </Button>
-          </ListItem>
-        </List>
+        <Projects />
+        <AddProjectButton setAddProjectDialogOpen={setAddProjectDialogOpen} />
       </div>
       <ProjectDialog
         dialogOpen={addProjectDialogOpen}

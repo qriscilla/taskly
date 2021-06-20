@@ -10,11 +10,11 @@ import Divider from '@material-ui/core/Divider';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ProjectHeader from './ProjectHeader';
-import ConfirmSnackbar from './extras/ConfirmSnackbar';
-import DeleteDialog from './extras/DeleteDialog';
-import TaskDialog from './extras/TaskDialog';
-import { useProjectContext } from '../../contexts';
-import { database } from '../../firebase';
+import ConfirmSnackbar from '../extras/ConfirmSnackbar';
+import DeleteDialog from '../extras/DeleteDialog';
+import TaskDialog from '../extras/TaskDialog';
+import { useProjectContext } from '../../../contexts';
+import { database } from '../../../firebase';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -147,8 +147,8 @@ const Tasks = () => {
         dialogOpen={editTaskDialogOpen}
         setDialogOpen={setEditTaskDialogOpen}
         title="Edit task"
-        actionType="Save"
-        actionFunc={updateTask}
+        actionLabel="Save"
+        action={updateTask}
         currTask={currTask} />
       <ConfirmSnackbar
         snackbarOpen={editTaskSnackbarOpen}

@@ -10,8 +10,8 @@ const TaskDialog = ({
     dialogOpen,
     setDialogOpen,
     title,
-    actionType,
-    actionFunc,
+    actionLabel,
+    action,
     currTask
 }) => {
     const taskRef = useRef();
@@ -19,7 +19,7 @@ const TaskDialog = ({
 
     const preActionFunc = e => {
         e.preventDefault();
-        actionFunc(
+        action(
             taskRef.current.value,
             dueDateRef.current.value
         );
@@ -63,7 +63,7 @@ const TaskDialog = ({
                         variant='contained'
                         color='primary'
                         type='submit' >
-                        {actionType}
+                        {actionLabel}
                     </Button>
                 </DialogActions>
             </form>

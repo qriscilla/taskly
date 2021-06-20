@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,7 +9,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import TurnedInNotOutlinedIcon from '@material-ui/icons/TurnedInNotOutlined';
-import { useProjectContext } from '../../contexts';
+import { useAuth, useProjectContext } from '../../../contexts';
+import { database } from '../../../firebase';
 
 const useStyles = makeStyles(theme => ({
     nested: {
@@ -17,10 +18,23 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const Projects = ({ projects }) => {
+const Projects = () => {
     const styles = useStyles();
+    const [projects, setProjects] = useState([]);
     const [collapseOpen, setCollapseOpen] = useState(false);
     const { selectProject } = useProjectContext();
+    const { currentUser } = useAuth();
+
+    useEffect(() => {
+        database.collection('projects')
+          .where('userEmail', '==', currentUser.email)
+          .onSnapshot(snapshot => {
+              setProjects(snapshot.docs.map(doc => ({
+                id: doc.id,
+                name: doc.data().name
+              })))          
+        });
+      }, [currentUser.email]);
 
     const toggleCollapse = () => setCollapseOpen(!collapseOpen);
 

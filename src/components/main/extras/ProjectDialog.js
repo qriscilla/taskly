@@ -11,15 +11,15 @@ const ProjectDialog = ({
     dialogOpen,
     setDialogOpen,
     title,
-    actionFunc,
-    actionType
+    action,
+    actionLabel
 }) => {
     const { project } = useProjectContext();
     const itemRef = useRef();
 
     const preActionFunc = e => {
         e.preventDefault();        
-        actionFunc(itemRef.current.value);
+        action(itemRef.current.value);
     };
 
     return (
@@ -37,7 +37,7 @@ const ProjectDialog = ({
                         label='Project name'
                         type='text'
                         fullWidth
-                        defaultValue={actionType === "Save" && project ? project.name : null}
+                        defaultValue={actionLabel === "Save" && project ? project.name : null}
                         inputRef={itemRef} />
                 </DialogContent>
                 <DialogActions>
@@ -55,7 +55,7 @@ const ProjectDialog = ({
                         size='small'
                         style={{fontWeight: '600'}}
                         color='primary' >
-                        {actionType}
+                        {actionLabel}
                     </Button>
                 </DialogActions>
             </form>
