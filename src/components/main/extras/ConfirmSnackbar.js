@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     snackbar: {
         position: "fixed",
         bottom: 0,

@@ -4,23 +4,17 @@ import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import CollectionsBookmarkIcon from '@material-ui/icons/CollectionsBookmark';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
-import TurnedInNotOutlinedIcon from '@material-ui/icons/TurnedInNotOutlined';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import { database } from '../../firebase';
 import { useAuth, useProjectContext } from '../../contexts';
-import { constants } from '../../constants';
-import ProjectDialog from './dialogs/ProjectDialog';
-import ConfirmSnackbar from './ConfirmSnackbar';
+import Constants from './Constants';
+import Projects from './Projects';
+import ProjectDialog from './extras/ProjectDialog';
+import ConfirmSnackbar from './extras/ConfirmSnackbar';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   drawer: {
     width: 240,
     flexShrink: 0,
@@ -31,9 +25,6 @@ const useStyles = makeStyles(theme => ({
   drawerContainer: {
     overflow: 'auto',
   },
-  nested: {
-    paddingLeft: theme.spacing(4),
-  },
   addProject: {
     position: 'fixed',
     bottom: 0,
@@ -43,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 
 const Sidebar = () => {
   const styles = useStyles();
-  const [collapseOpen, setCollapseOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [addProjectDialogOpen, setAddProjectDialogOpen] = useState(false);
   const [addProjectSnackbarOpen, setAddProjectSnackbarOpen] = useState(false);
@@ -60,8 +50,6 @@ const Sidebar = () => {
           })))          
     });
   }, [currentUser.email]);
-
-  const toggleCollapse = () => setCollapseOpen(!collapseOpen);
 
   const addProject = projectName => {
     database
@@ -85,45 +73,9 @@ const Sidebar = () => {
       styles={{paper: styles.drawerPaper}} >
       <Toolbar />
       <div className={styles.drawerContainer}>
-        <List>
-          {constants.map(constant =>
-            <ListItem 
-              button 
-              key={constant.id}
-              onClick={() => selectProject(constant.id)} >
-              <ListItemIcon>
-                {constant.icon}
-              </ListItemIcon>
-              <ListItemText primary={constant.name} />
-            </ListItem>
-          )}
-        </List>
+        <Constants />
         <Divider />
-        <List>
-          <ListItem button onClick={toggleCollapse}>
-            <ListItemIcon>
-              <CollectionsBookmarkIcon />
-            </ListItemIcon>
-            <ListItemText primary='Projects' />
-            {collapseOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={collapseOpen} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              {projects.map(project =>
-                <ListItem 
-                  button 
-                  className={styles.nested} 
-                  key={project.id}
-                  onClick={() => selectProject(project.id)} >
-                  <ListItemIcon>
-                    <TurnedInNotOutlinedIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={project.name} />
-                </ListItem> 
-              )}
-            </List>
-          </Collapse>
-        </List>
+        <Projects projects={projects} />
         <List>
           <ListItem className={styles.addProject}>
             <Button 

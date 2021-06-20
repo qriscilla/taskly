@@ -29,7 +29,7 @@ const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
     const { signOut } = useAuth();
 
-    const handleSignOut = () => signOut().catch(error => console.log(error.message));
+    const handleSignOut = () => signOut().catch(err => console.log(err.message));
     const openSignOutMenu = e => setAnchorEl(e.currentTarget);
     const closeSignOutMenu = () => setAnchorEl(null);
 

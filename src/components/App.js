@@ -5,7 +5,7 @@ import { PrivateRoute, PublicRoute } from './routes';
 import SignUp from './auth/SignUp';
 import SignIn from './auth/SignIn';
 import ResetPassword from './auth/ResetPassword';
-import Main from './main/Main';
+import Main from './main';
 
 const App = () => {
   return (

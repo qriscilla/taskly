@@ -6,10 +6,10 @@ import AddIcon from '@material-ui/icons/Add';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import DeleteDialog from './dialogs/DeleteDialog';
-import TaskDialog from './dialogs/TaskDialog';
-import ProjectDialog from './dialogs/ProjectDialog';
-import ConfirmSnackbar from './ConfirmSnackbar';
+import DeleteDialog from './extras/DeleteDialog';
+import TaskDialog from './extras/TaskDialog';
+import ProjectDialog from './extras/ProjectDialog';
+import ConfirmSnackbar from './extras/ConfirmSnackbar';
 import { useProjectContext } from '../../contexts';
 import { database } from '../../firebase';
 
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProjectHeader = () => {
-    const classes = useStyles();
+    const styles = useStyles();
     const { project, projectId, selectProject } = useProjectContext();
     const [anchorEl, setAnchorEl] = useState(null);
     const [editProjectDialogOpen, setEditProjectDialogOpen] = useState(false);
@@ -88,17 +88,17 @@ const ProjectHeader = () => {
     };
 
     return (
-        <Typography variant='h6' className={classes.projectHeader}>
+        <Typography variant='h6' className={styles.projectHeader}>
             {project && project.name}
             <span>
                 <IconButton 
-                    className={classes.button} 
+                    className={styles.button} 
                     color='primary'
                     onClick={() => setAddTaskDialogOpen(true)} >
                     <AddIcon />
                 </IconButton>
                 <IconButton 
-                    className={classes.button} 
+                    className={styles.button} 
                     color='primary'
                     onClick={openProjectMenu} >
                     <MoreHorizIcon />

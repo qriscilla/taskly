@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import ProjectHeader from './ProjectHeader';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -10,9 +9,10 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ConfirmSnackbar from './ConfirmSnackbar';
-import DeleteDialog from './dialogs/DeleteDialog';
-import TaskDialog from './dialogs/TaskDialog';
+import ProjectHeader from './ProjectHeader';
+import ConfirmSnackbar from './extras/ConfirmSnackbar';
+import DeleteDialog from './extras/DeleteDialog';
+import TaskDialog from './extras/TaskDialog';
 import { useProjectContext } from '../../contexts';
 import { database } from '../../firebase';
 
@@ -87,74 +87,74 @@ const Tasks = () => {
   };
 
   return (
-      <main className={styles.content}>
-        <Toolbar />
-        <ProjectHeader />
-        <Typography className={styles.tasks}>
-            {tasks.map(task => 
-                <span key={task.id} className={styles.task}>
-                  <span>
-                    <FormControlLabel 
-                      control={
-                        <Checkbox 
-                          checked={task.completed} 
-                          size='small' 
-                          color='primary'
-                          onChange={toggleTaskComplete(task.id)} />
-                      } />
-                    {task.task}                    
-                  </span>
-                  <IconButton 
-                    className={styles.elipses}
-                    onClick={openTaskMenu(task)} >
-                    <MoreHorizIcon />
-                  </IconButton>
+    <main className={styles.content}>
+      <Toolbar />
+      <ProjectHeader />
+      <Typography className={styles.tasks}>
+          {tasks.map(task => 
+              <span key={task.id} className={styles.task}>
+                <span>
+                  <FormControlLabel 
+                    control={
+                      <Checkbox 
+                        checked={task.completed} 
+                        size='small' 
+                        color='primary'
+                        onChange={toggleTaskComplete(task.id)} />
+                    } />
+                  {task.task}                    
                 </span>
-            )}
-        </Typography>
-        <Divider />
-        <Menu 
-          anchorEl={anchorEl}
-          keepMounted 
-          open={Boolean(anchorEl)}
-          onClose={() => setAnchorEl(null)}
-          getContentAnchorEl={null}
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          transformOrigin={{ vertical: "top", horizontal: "center" }} >
-          <MenuItem onClick={() => {
-            setAnchorEl(false);
-            setEditTaskDialogOpen(true);
-          }} >
-            Edit
-          </MenuItem>
-          <MenuItem onClick={() => {
-            setAnchorEl(false);
-            setDeleteTaskDialogOpen(true);
-          }} >
-            Delete
-          </MenuItem>
-        </Menu>
-        <DeleteDialog 
-          itemType="task"
-          dialogOpen={deleteTaskDialogOpen}
-          setDialogOpen={setDeleteTaskDialogOpen}
-          deleteFunc={deleteTask} />
-        <ConfirmSnackbar
-          snackbarOpen={deleteTaskSnackbarOpen}
-          setSnackbarOpen={setDeleteTaskSnackbarOpen}
-          confirmMessage='Task was deleted!' />
-        <TaskDialog
-          dialogOpen={editTaskDialogOpen}
-          setDialogOpen={setEditTaskDialogOpen}
-          title="Edit task"
-          actionType="Save"
-          actionFunc={updateTask}
-          currTask={currTask} />
-        <ConfirmSnackbar
-          snackbarOpen={editTaskSnackbarOpen}
-          setSnackbarOpen={setEditTaskSnackbarOpen}
-          confirmMessage='Task was updated!' />
-      </main>
+                <IconButton 
+                  className={styles.elipses}
+                  onClick={openTaskMenu(task)} >
+                  <MoreHorizIcon />
+                </IconButton>
+              </span>
+          )}
+      </Typography>
+      <Divider />
+      <Menu 
+        anchorEl={anchorEl}
+        keepMounted 
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }} >
+        <MenuItem onClick={() => {
+          setAnchorEl(false);
+          setEditTaskDialogOpen(true);
+        }} >
+          Edit
+        </MenuItem>
+        <MenuItem onClick={() => {
+          setAnchorEl(false);
+          setDeleteTaskDialogOpen(true);
+        }} >
+          Delete
+        </MenuItem>
+      </Menu>
+      <DeleteDialog 
+        itemType="task"
+        dialogOpen={deleteTaskDialogOpen}
+        setDialogOpen={setDeleteTaskDialogOpen}
+        deleteFunc={deleteTask} />
+      <ConfirmSnackbar
+        snackbarOpen={deleteTaskSnackbarOpen}
+        setSnackbarOpen={setDeleteTaskSnackbarOpen}
+        confirmMessage='Task was deleted!' />
+      <TaskDialog
+        dialogOpen={editTaskDialogOpen}
+        setDialogOpen={setEditTaskDialogOpen}
+        title="Edit task"
+        actionType="Save"
+        actionFunc={updateTask}
+        currTask={currTask} />
+      <ConfirmSnackbar
+        snackbarOpen={editTaskSnackbarOpen}
+        setSnackbarOpen={setEditTaskSnackbarOpen}
+        confirmMessage='Task was updated!' />
+    </main>
   );
 }
 
