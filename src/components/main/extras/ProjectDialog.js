@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -6,6 +7,12 @@ import TextField from '@material-ui/core/TextField';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
 import { useProjectContext } from '../../../contexts';
+
+const useStyles = makeStyles(() => ({
+    button: {
+        fontWeight: 600
+    }
+}));
 
 const ProjectDialog = ({ 
     dialogOpen,
@@ -16,6 +23,7 @@ const ProjectDialog = ({
 }) => {
     const { project } = useProjectContext();
     const itemRef = useRef();
+    const styles = useStyles();
 
     const preActionFunc = e => {
         e.preventDefault();        
@@ -44,7 +52,7 @@ const ProjectDialog = ({
                     <Button
                         variant='outlined'
                         size='small'
-                        style={{fontWeight: '600'}}
+                        className={styles.button}
                         color='primary'
                         onClick={() => setDialogOpen(false)} >
                         Cancel
@@ -53,7 +61,7 @@ const ProjectDialog = ({
                         type='submit'
                         variant='contained'
                         size='small'
-                        style={{fontWeight: '600'}}
+                        className={styles.button}
                         color='primary' >
                         {actionLabel}
                     </Button>

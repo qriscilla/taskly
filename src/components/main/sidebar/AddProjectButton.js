@@ -10,6 +10,9 @@ const useStyles = makeStyles(() => ({
       position: 'fixed',
       bottom: 0,
       paddingBottom: 15,
+    },
+    button: {
+        fontWeight: 600
     }
 }));
 
@@ -23,7 +26,7 @@ const AddProjectButton = ({ setAddProjectDialogOpen }) => {
                     variant='contained'
                     size='small'
                     color='primary'
-                    style={{ fontWeight: '600' }}
+                    className={styles.button}
                     onClick={() => setAddProjectDialogOpen(true)} >
                     <AddIcon /> Add Project
                 </Button>

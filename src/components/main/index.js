@@ -1,18 +1,18 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Navbar from './Navbar';
-import Sidebar from './sidebar/Sidebar';
-import Tasks from './tasks/Tasks';
+import Navbar from './navbar';
+import Sidebar from './sidebar';
+import Body from './body';
 
-const index = () => {
+const Main = () => {
   return (
     <div style={{display: 'flex'}}>
       <CssBaseline />
       <Navbar />
       <Sidebar />
-      <Tasks />
+      <Body />
     </div>
   );
 };
 
-export default index;
+export default Main;

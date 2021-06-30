@@ -6,9 +6,8 @@ import DoneOutline from '@material-ui/icons/DoneOutline';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { useAuth } from '../../contexts';
+import { useAuth } from '../../../contexts';
+import AccountMenu from './AccountMenu';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -43,16 +42,10 @@ const Navbar = () => {
           <Button color="inherit" onClick={openSignOutMenu} className={styles.signOutMenu}>
             <AccountCircle />
           </Button>
-          <Menu
+          <AccountMenu
             anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={closeSignOutMenu}
-            getContentAnchorEl={null}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            transformOrigin={{ vertical: "top", horizontal: "center" }} >
-            <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-          </Menu>
+            closeSignOutMenu={closeSignOutMenu}
+            handleSignOut={handleSignOut} />
         </Toolbar>
       </AppBar>
     );

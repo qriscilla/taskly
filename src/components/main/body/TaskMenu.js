@@ -1,13 +1,14 @@
 import React from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { anchorOrigin, transformOrigin } from '../../../constants';
 
-const ProjectMenu = ({ 
+const TaskMenu = ({ 
     anchorEl, 
-    setAnchorEl, 
-    setEditProjectDialogOpen, 
-    setDeleteProjectDialogOpen 
-}) => {
+    setAnchorEl,
+    setEditTaskDialogOpen,
+    setDeleteTaskDialogOpen
+ }) => {
     return (
         <Menu
             anchorEl={anchorEl}
@@ -15,17 +16,17 @@ const ProjectMenu = ({
             open={Boolean(anchorEl)}
             onClose={() => setAnchorEl(null)}
             getContentAnchorEl={null}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            transformOrigin={{ vertical: "top", horizontal: "center" }} >
+            anchorOrigin={anchorOrigin}
+            transformOrigin={transformOrigin} >
             <MenuItem onClick={() => {
                 setAnchorEl(false);
-                setEditProjectDialogOpen(true);
+                setEditTaskDialogOpen(true);
             }} >
-                Rename
+                Edit
             </MenuItem>
             <MenuItem onClick={() => {
                 setAnchorEl(false);
-                setDeleteProjectDialogOpen(true);
+                setDeleteTaskDialogOpen(true);
             }} >
                 Delete
             </MenuItem>
@@ -33,4 +34,4 @@ const ProjectMenu = ({
     );
 }
 
-export default ProjectMenu;
+export default TaskMenu;

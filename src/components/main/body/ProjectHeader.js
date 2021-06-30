@@ -100,7 +100,7 @@ const ProjectHeader = () => {
                             color='primary'
                             onClick={openProjectMenu} >
                             <MoreHorizIcon />   
-                        </IconButton>     
+                        </IconButton>    
                     </>
                 }
                 <ProjectMenu 

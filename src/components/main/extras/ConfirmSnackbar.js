@@ -7,9 +7,8 @@ const useStyles = makeStyles(() => ({
     snackbar: {
         position: "fixed",
         bottom: 0,
-        paddingBottom: 15,
         right: 0,
-        paddingRight: 15
+        padding: '0 15px 15px 0'
     },
     alert: {
         paddingTop: 1,

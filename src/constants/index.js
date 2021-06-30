@@ -20,3 +20,13 @@ export const constants = [
         icon: <DataUsageIcon />
     }
 ];
+
+export const anchorOrigin = {
+    vertical: "bottom", 
+    horizontal: "center"
+};
+
+export const transformOrigin = {
+    vertical: 'top',
+    horizontal: 'center'
+};
