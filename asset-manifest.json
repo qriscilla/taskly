@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/planr/static/js/main.b534a3e5.chunk.js",
+    "main.js.map": "/planr/static/js/main.b534a3e5.chunk.js.map",
+    "runtime-main.js": "/planr/static/js/runtime-main.78965032.js",
+    "runtime-main.js.map": "/planr/static/js/runtime-main.78965032.js.map",
+    "static/js/2.90fd3789.chunk.js": "/planr/static/js/2.90fd3789.chunk.js",
+    "static/js/2.90fd3789.chunk.js.map": "/planr/static/js/2.90fd3789.chunk.js.map",
+    "static/js/3.972ef230.chunk.js": "/planr/static/js/3.972ef230.chunk.js",
+    "static/js/3.972ef230.chunk.js.map": "/planr/static/js/3.972ef230.chunk.js.map",
+    "index.html": "/planr/index.html",
+    "static/js/2.90fd3789.chunk.js.LICENSE.txt": "/planr/static/js/2.90fd3789.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.78965032.js",
+    "static/js/2.90fd3789.chunk.js",
+    "static/js/main.b534a3e5.chunk.js"
+  ]
+}
