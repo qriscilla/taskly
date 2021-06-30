@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { database } from '../firebase';
 import { constants } from '../constants';
+import { useAuth } from './AuthContext';
 
 const ProjectContext = createContext();
 const useProjectContext = () => useContext(ProjectContext);
@@ -9,6 +10,7 @@ const ProjectProvider = ({ children }) => {
     const [projectId, setProjectId] = useState('');
     const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
+    const { currentUser } = useAuth();
 
     useEffect(() => selectProject(0), []);
 
@@ -20,6 +22,7 @@ const ProjectProvider = ({ children }) => {
 
             database
                 .collection('tasks')
+                .where('userEmail', '==', currentUser.email)
                 .onSnapshot(snapshot =>
                     setTasks(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
                         .filter(task => {

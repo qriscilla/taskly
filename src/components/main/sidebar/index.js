@@ -62,8 +62,8 @@ const Sidebar = () => {
         dialogOpen={addProjectDialogOpen}
         setDialogOpen={setAddProjectDialogOpen}
         title="Add new project"
-        actionFunc={addProject}
-        actionType="Add" />
+        action={addProject}
+        actionLabel="Add" />
       <ConfirmSnackbar
         snackbarOpen={addProjectSnackbarOpen}
         setSnackbarOpen={setAddProjectSnackbarOpen}
