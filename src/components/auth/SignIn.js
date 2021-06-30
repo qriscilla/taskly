@@ -63,12 +63,12 @@ export const SignIn = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to='/reset-password' className={styles.link}>
+              <Link to='/planr/reset-password' className={styles.link}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link to='/sign-up' className={styles.link}>
+              <Link to='/planr/sign-up' className={styles.link}>
                 Don't have an account? Sign up
               </Link>
             </Grid>
