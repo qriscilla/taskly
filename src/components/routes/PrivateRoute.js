@@ -10,7 +10,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
             {...rest}
             render={props => currentUser 
                 ? <Component {...props} /> 
-                : <Redirect to='/sign-in' />
+                : <Redirect to='/planr/sign-in' />
             } />
     );
 };

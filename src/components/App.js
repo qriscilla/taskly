@@ -12,11 +12,11 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Switch>
-          <PublicRoute path='/sign-up' component={SignUp} />
-          <PublicRoute path='/sign-in' component={SignIn} />
-          <PublicRoute path='/reset-password' component={ResetPassword} />
+          <PublicRoute path='/planr/sign-up' component={SignUp} />
+          <PublicRoute path='/planr/sign-in' component={SignIn} />
+          <PublicRoute path='/planr/reset-password' component={ResetPassword} />
           <ProjectProvider>
-            <PrivateRoute exact path='/' component={Main} />
+            <PrivateRoute exact path='/planr' component={Main} />
           </ProjectProvider>
         </Switch>
       </AuthProvider>      
