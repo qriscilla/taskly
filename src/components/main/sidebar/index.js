@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
-import { database } from '../../../firebase';
-import { useAuthContext, useProjectContext } from '../../../contexts';
 import Constants from './Constants';
 import Projects from './Projects';
 import AddProjectButton from './AddProjectButton';
 import ProjectDialog from '../extras/ProjectDialog';
 import ConfirmSnackbar from '../extras/ConfirmSnackbar';
+import { database } from '../../../firebase';
+import { useAuthContext, useProjectContext } from '../../../contexts';
 
 const useStyles = makeStyles(() => ({
   drawer: {
