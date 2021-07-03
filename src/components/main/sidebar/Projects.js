@@ -9,7 +9,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 import TurnedInNotOutlinedIcon from '@material-ui/icons/TurnedInNotOutlined';
-import { useAuth, useProjectContext } from '../../../contexts';
+import { useAuthContext, useProjectContext } from '../../../contexts';
 import { database } from '../../../firebase';
 
 const useStyles = makeStyles(theme => ({
@@ -23,7 +23,7 @@ const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [collapseOpen, setCollapseOpen] = useState(false);
     const { selectProject } = useProjectContext();
-    const { currentUser } = useAuth();
+    const { currentUser } = useAuthContext();
 
     useEffect(() => {
         database.collection('projects')

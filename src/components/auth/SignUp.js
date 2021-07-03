@@ -6,7 +6,7 @@ import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { useAuth } from '../../contexts';
+import { useAuthContext } from '../../contexts';
 import { database } from '../../firebase';
 import { useStyles } from './SharedStyles';
 import Logo from './Logo';
@@ -17,7 +17,7 @@ const SignUp = () => {
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
     const [error, setError] = useState('');
-    const { signUp } = useAuth();
+    const { signUp } = useAuthContext();
 
     const handleSubmit = e => {
         e.preventDefault();

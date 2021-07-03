@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { database } from '../firebase';
 import { constants } from '../constants';
-import { useAuth } from './AuthContext';
+import { useAuthContext } from './AuthContext';
 
 const ProjectContext = createContext();
 const useProjectContext = () => useContext(ProjectContext);
@@ -10,13 +10,16 @@ const ProjectProvider = ({ children }) => {
     const [projectId, setProjectId] = useState('');
     const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
-    const { currentUser } = useAuth();
+    const { currentUser } = useAuthContext();
 
+    // Upon mounting, load tasks that are "Due today"
     useEffect(() => selectProject(0), []);
 
     const selectProject = projectId => {
+        // Set project Id regardless of whether project is a constant or a custom-made
         setProjectId(projectId);
 
+        // If the selected project is a constant
         if (projectId < 3) {
             setProject(constants[projectId]);
 
@@ -42,13 +45,16 @@ const ProjectProvider = ({ children }) => {
                         })));
         }
 
+        // If the selected project is a custom-made
         else {
             const selectedProject = database.collection('projects').doc(projectId);
-            const allTasks = database.collection('tasks').where('projectId', '==', projectId);
+            const selectedProjectTasks = database.collection('tasks').where('projectId', '==', projectId);
 
+            // Set (or update) selected project
             selectedProject.onSnapshot(doc => setProject(doc.data()));
 
-            allTasks.onSnapshot(snapshot => 
+            // Set (or update) tasks by the selected project
+            selectedProjectTasks.onSnapshot(snapshot => 
                 setTasks(snapshot.docs.map(doc => 
                     ({ id: doc.id, ...doc.data() }))));              
         }
@@ -63,4 +69,4 @@ const ProjectProvider = ({ children }) => {
     );
 }
 
-export { useProjectContext, ProjectProvider };
+export { ProjectProvider, useProjectContext };

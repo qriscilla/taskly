@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../contexts';
+import { useAuthContext } from '../../contexts';
 import { useStyles } from './SharedStyles';
 import Logo from './Logo';
 
@@ -15,7 +15,7 @@ export const SignIn = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState('');
-  const { signIn } = useAuth();
+  const { signIn } = useAuthContext();
 
   const handleSubmit = e => {
     e.preventDefault();

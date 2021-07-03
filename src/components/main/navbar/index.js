@@ -6,7 +6,7 @@ import DoneOutline from '@material-ui/icons/DoneOutline';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { useAuth } from '../../../contexts';
+import { useAuthContext } from '../../../contexts';
 import AccountMenu from './AccountMenu';
 
 const useStyles = makeStyles(theme => ({
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
     const styles = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const { signOut } = useAuth();
+    const { signOut } = useAuthContext();
 
     const handleSignOut = () => signOut().catch(err => console.log(err.message));
     const openSignOutMenu = e => setAnchorEl(e.currentTarget);
