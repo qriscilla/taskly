@@ -1,11 +1,21 @@
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import ProjectHeader from './ProjectHeader';
-import Tasks from './Tasks';
+import ProjectHeader from './project-header/ProjectHeader';
+import Tasks from './tasks/Tasks';
+
+const useStyles = makeStyles(() => ({
+  main: {
+    flexGrow: 1,
+    padding: 18
+  }
+}));
 
 const Body = () => {
+  const styles = useStyles();
+
   return (
-    <main style={{flexGrow: '1', padding: '18px'}}>
+    <main className={styles.main}>
       <Toolbar />
       <ProjectHeader />
       <Tasks />

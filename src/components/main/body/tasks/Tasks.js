@@ -6,12 +6,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Divider from '@material-ui/core/Divider';
-import { useProjectContext } from '../../../contexts';
-import { database } from '../../../firebase';
+import { useProjectContext } from '../../../../contexts';
+import { database } from '../../../../firebase';
 import TaskMenu from './TaskMenu';
-import DeleteDialog from '../extras/DeleteDialog';
-import ConfirmSnackbar from '../extras/ConfirmSnackbar';
-import TaskDialog from '../extras/TaskDialog';
+import DeleteDialog from '../../extras/DeleteDialog';
+import ConfirmSnackbar from '../../extras/ConfirmSnackbar';
+import TaskDialog from '../../extras/TaskDialog';
 
 const useStyles = makeStyles(theme => ({
     tasks: {
