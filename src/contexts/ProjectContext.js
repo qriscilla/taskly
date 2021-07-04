@@ -14,9 +14,12 @@ const ProjectProvider = ({ children }) => {
     // Upon mounting, load tasks that are "Due today"
     useEffect(() => {
         selectProject(0);
+        // eslint-disable-next-line
     }, []);
 
     const selectProject = projectId => {
+        if (!currentUser) return;
+        
         // If the selected project is a constant
         if (projectId < 3) {
             setProject(constants[projectId]);
