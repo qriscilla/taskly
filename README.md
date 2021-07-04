@@ -1,71 +1,19 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # taskly
+A simple project/task management built with React and Firebase
+
+## About
+Taskly is a simple project/task management system I built to better familiarize myself with Firebase as well as some of React's advanced concepts (e.g., context). Upon successful login or signup, user can create project(s) and add tasks that are each optionally tagged with a due date. There are three "constant" projects, <em>Due today</em>, <em>Due within 7 days</em>, and <em>All incomplete tasks</em>, for a quick glance-through of the user's existing tasks.
+
+## Stack
+- React and Material UI for the front-end design and dev
+- Firebase auth for setting up and managing user accounts
+- Firestore database for storing and querying data
+
+## Demo
+To see the live website with the latest deployed code, click <a href="https://qriscilla.github.io/taskly/" target="_blank">HERE</a>.
+
+<img width="1440" alt="Screen Shot 2021-07-04 at 5 45 43 PM" src="https://user-images.githubusercontent.com/49591938/124401585-d4c66b80-dcef-11eb-89a5-fdac3689930b.png">
+
+<img width="1440" alt="Screen Shot 2021-07-04 at 5 46 13 PM" src="https://user-images.githubusercontent.com/49591938/124401602-e6a80e80-dcef-11eb-9f9c-b53ac6a3f428.png">
+
+<img width="1440" alt="Screen Shot 2021-07-04 at 5 46 37 PM" src="https://user-images.githubusercontent.com/49591938/124401605-ea3b9580-dcef-11eb-95fb-71d34c081891.png">
