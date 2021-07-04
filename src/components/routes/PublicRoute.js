@@ -9,7 +9,7 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
         <Route
             {...rest}
             render={props => currentUser
-                ? <Redirect to='/planr' />
+                ? <Redirect to='/taskly' />
                 : <Component {...props} />
             } />
     );

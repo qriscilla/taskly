@@ -63,12 +63,12 @@ export const SignIn = () => {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link to='/planr/reset-password' className={styles.link}>
+              <Link to='/taskly/reset-password' className={styles.link}>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
-              <Link to='/planr/sign-up' className={styles.link}>
+              <Link to='/taskly/sign-up' className={styles.link}>
                 Don't have an account? Sign up
               </Link>
             </Grid>

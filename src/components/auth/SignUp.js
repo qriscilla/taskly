@@ -77,7 +77,7 @@ const SignUp = () => {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link to='/planr/sign-in' className={styles.link}>
+                            <Link to='/taskly/sign-in' className={styles.link}>
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

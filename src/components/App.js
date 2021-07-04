@@ -14,13 +14,13 @@ const App = () => {
         <Switch>
 
           {/* Below pages are accessible without authentication */}
-          <PublicRoute path='/planr/sign-up' component={SignUp} />
-          <PublicRoute path='/planr/sign-in' component={SignIn} />
-          <PublicRoute path='/planr/reset-password' component={ResetPassword} />
+          <PublicRoute path='/taskly/sign-up' component={SignUp} />
+          <PublicRoute path='/taskly/sign-in' component={SignIn} />
+          <PublicRoute path='/taskly/reset-password' component={ResetPassword} />
 
           {/* Below "main" page is accessible only after authentication */}
           <ProjectProvider>
-            <PrivateRoute exact path='/planr' component={Main} />
+            <PrivateRoute exact path='/taskly' component={Main} />
           </ProjectProvider>
 
         </Switch>

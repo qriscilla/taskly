@@ -1,6 +1,6 @@
 {
-  "name": "planr",
-  "homepage": "https://qriscilla.github.io/planr",
+  "name": "taskly",
+  "homepage": "https://qriscilla.github.io/taskly",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
