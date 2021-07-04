@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
 
 const ProjectHeader = () => {
     const styles = useStyles();
-    const { project, projectId } = useProjectContext();
+    const { project } = useProjectContext();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const openProjectMenu = e => setAnchorEl(e.currentTarget);
@@ -30,8 +30,8 @@ const ProjectHeader = () => {
     return (
         <Typography variant='h6' className={styles.projectHeader}>
             {project && project.name}
-            <div>
-                {typeof projectId === 'string' &&
+            <span>
+                {typeof project.id === 'string' &&
                     <span>
                         <AddTask />
                         <IconButton 
@@ -45,7 +45,7 @@ const ProjectHeader = () => {
                 <ProjectMenu 
                     anchorEl={anchorEl} 
                     setAnchorEl={setAnchorEl} />
-            </div>
+            </span>
         </Typography>
     );
 }

@@ -7,18 +7,16 @@ const ProjectContext = createContext();
 const useProjectContext = () => useContext(ProjectContext);
 
 const ProjectProvider = ({ children }) => {
-    const [projectId, setProjectId] = useState('');
     const [project, setProject] = useState({});
     const [tasks, setTasks] = useState([]);
     const { currentUser } = useAuthContext();
 
     // Upon mounting, load tasks that are "Due today"
-    useEffect(() => selectProject(0), []);
+    useEffect(() => {
+        selectProject(0);
+    }, []);
 
     const selectProject = projectId => {
-        // Set project Id regardless of whether project is a constant or a custom-made
-        setProjectId(projectId);
-
         // If the selected project is a constant
         if (projectId < 3) {
             setProject(constants[projectId]);
@@ -47,20 +45,23 @@ const ProjectProvider = ({ children }) => {
 
         // If the selected project is a custom-made
         else {
-            const selectedProject = database.collection('projects').doc(projectId);
-            const selectedProjectTasks = database.collection('tasks').where('projectId', '==', projectId);
-
             // Set (or update) selected project
-            selectedProject.onSnapshot(doc => setProject(doc.data()));
+            database
+                .collection('projects')
+                .doc(projectId)
+                .onSnapshot(doc => setProject({ id: doc.id, ...doc.data()}));
 
             // Set (or update) tasks by the selected project
-            selectedProjectTasks.onSnapshot(snapshot => 
-                setTasks(snapshot.docs.map(doc => 
-                    ({ id: doc.id, ...doc.data() }))));              
+            database
+                .collection('tasks')
+                .where('projectId', '==', projectId)
+                .onSnapshot(snapshot => 
+                    setTasks(snapshot.docs.map(doc => 
+                        ({ id: doc.id, ...doc.data() }))));              
         }
     };
 
-    const value = { projectId, project, selectProject, tasks };
+    const value = { project, tasks, selectProject };
 
     return (
         <ProjectContext.Provider value={value}>

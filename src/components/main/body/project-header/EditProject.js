@@ -8,13 +8,13 @@ const EditProject = ({
     editProjectDialogOpen,
     setEditProjectDialogOpen
 }) => {
-    const { projectId } = useProjectContext();
+    const { project } = useProjectContext();
     const [editProjectSnackbarOpen, setEditProjectSnackbarOpen] = useState(false);
 
     const updateProject = projectName => {
         database
             .collection('projects')
-            .doc(projectId)
+            .doc(project.id)
             .update({ name: projectName })
             .then(() => {
                 setEditProjectDialogOpen(false);

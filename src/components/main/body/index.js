@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import ProjectHeader from './project-header/ProjectHeader';
-import Tasks from './tasks/Tasks';
+import ProjectHeader from './project-header';
+import Tasks from './tasks';
 
 const useStyles = makeStyles(() => ({
   main: {

@@ -5,12 +5,19 @@ import { anchorOrigin, transformOrigin } from '../../../../constants';
 import EditProject from './EditProject';
 import DeleteProject from './DeleteProject';
 
-const ProjectMenu = ({ 
-    anchorEl, 
-    setAnchorEl, 
-}) => {
+const ProjectMenu = ({ anchorEl, setAnchorEl }) => {
     const [editProjectDialogOpen, setEditProjectDialogOpen] = useState(false);
     const [deleteProjectDialogOpen, setDeleteProjectDialogOpen] = useState(false);
+
+    const proceedEditProject = () => {
+        setAnchorEl(false);
+        setEditProjectDialogOpen(true);
+    };
+
+    const proceedDeleteProject = () => {
+        setAnchorEl(false);
+        setDeleteProjectDialogOpen(true);
+    };
 
     return (
         <>
@@ -22,16 +29,10 @@ const ProjectMenu = ({
                 getContentAnchorEl={null}
                 anchorOrigin={anchorOrigin}
                 transformOrigin={transformOrigin} >
-                <MenuItem onClick={() => {
-                    setAnchorEl(false);
-                    setEditProjectDialogOpen(true);
-                }} >
+                <MenuItem onClick={proceedEditProject}>
                     Rename
                 </MenuItem>
-                <MenuItem onClick={() => {
-                    setAnchorEl(false);
-                    setDeleteProjectDialogOpen(true);
-                }} >
+                <MenuItem onClick={proceedDeleteProject}>
                     Delete
                 </MenuItem>
             </Menu>

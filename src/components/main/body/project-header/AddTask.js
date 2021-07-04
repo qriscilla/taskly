@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import { database } from '../../../../firebase';
-import { useProjectContext } from '../../../../contexts';
+import { useProjectContext, useAuthContext } from '../../../../contexts';
 import TaskDialog from '../../extras/TaskDialog';
 import ConfirmSnackbar from '../../extras/ConfirmSnackbar';
 
@@ -24,7 +24,8 @@ const AddTask = () => {
     const styles = useStyles();
     const [addTaskDialogOpen, setAddTaskDialogOpen] = useState(false);
     const [addTaskSnackbarOpen, setAddTaskSnackbarOpen] = useState(false);
-    const { projectId } = useProjectContext();
+    const { project } = useProjectContext();
+    const { currentUser } = useAuthContext();
 
     const addTask = (task, dueDate) => {
         database
@@ -32,8 +33,9 @@ const AddTask = () => {
             .add({
                 task: task,
                 completed: false,
-                projectId: projectId,
-                dueDate: dueDate
+                projectId: project.id,
+                dueDate: dueDate,
+                userEmail: currentUser.email
             })
             .then(() => {
                 setAddTaskDialogOpen(false);

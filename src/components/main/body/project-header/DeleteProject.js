@@ -8,19 +8,19 @@ const DeleteProject = ({
     deleteProjectDialogOpen,
     setDeleteProjectDialogOpen
 }) => {
-    const { projectId, selectProject } = useProjectContext();
+    const { project, selectProject } = useProjectContext();
     const [deleteProjectSnackbarOpen, setDeleteProjectSnackbarOpen] = useState(false);
 
     const deleteProject = () => e => {
         database
             .collection('projects')
-            .doc(projectId)
+            .doc(project.id)
             .delete()
             .then(() => setDeleteProjectSnackbarOpen(true));
 
         database
             .collection('tasks')
-            .where('projectId', '==', projectId)
+            .where('projectId', '==', project.id)
             .get()
             .then(querySnapshot => querySnapshot.forEach(doc => doc.ref.delete()));
 
